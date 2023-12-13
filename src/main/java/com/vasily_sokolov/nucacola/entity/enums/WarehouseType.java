@@ -1,4 +1,4 @@
-package com.vasily_sokolov.nucacola.enums;
+package com.vasily_sokolov.nucacola.entity.enums;
 
 public enum WarehouseType {
     FINISHED_PRODUCT_WAREHOUSE,
