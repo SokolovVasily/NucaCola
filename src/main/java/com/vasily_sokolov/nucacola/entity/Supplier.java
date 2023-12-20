@@ -1,21 +1,31 @@
 package com.vasily_sokolov.nucacola.entity;
 
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Map;
 import java.util.Objects;
 
+@Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "supplier")
 public class Supplier {
+
+    @Id
+    @Column(name = "supplier_id")
     private int supplierId;
+
+    @Column(name = "supplier_name")
     private String supplierName;
-    private Map<RawMaterial, Integer> quantitySupplied;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "raw_material_id")
+    private RawMaterial rawMaterial;
 
     @Override
     public boolean equals(Object o) {
@@ -35,7 +45,7 @@ public class Supplier {
         return "Supplier{" +
                 "supplierId=" + supplierId +
                 ", supplierName='" + supplierName + '\'' +
-                ", quantitySupplied=" + quantitySupplied +
+                ", rawMaterial=" + rawMaterial +
                 '}';
     }
 }

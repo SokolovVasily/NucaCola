@@ -1,24 +1,38 @@
 package com.vasily_sokolov.nucacola.entity;
 
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
-import java.util.Map;
+import java.time.LocalDate;
 import java.util.Objects;
 
+@Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "sale")
 public class Sale {
+    @Id
+    @Column(name = "sale_id")
     private int saleId;
-    private Map<Product, Integer> quantitySold;
-    private Date saleDate;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "product_id")
+    private Product product ;
+
+    @Column(name = "sale_date")
+    private LocalDate saleDate;
+
+    @Column(name = "customer_name")
     private String customerName;
-    private Warehouse<Product> finishedProductWarehouse;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "warehouse_id")
+    private Warehouse finishedProductWarehouse;
 
     @Override
     public boolean equals(Object o) {
@@ -37,7 +51,7 @@ public class Sale {
     public String toString() {
         return "Sale{" +
                 "saleId=" + saleId +
-                ", quantitySold=" + quantitySold +
+                ", product=" + product +
                 ", saleDate=" + saleDate +
                 ", customerName='" + customerName + '\'' +
                 ", finishedProductWarehouse=" + finishedProductWarehouse +

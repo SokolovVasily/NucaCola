@@ -1,19 +1,32 @@
 package com.vasily_sokolov.nucacola.entity;
 
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Objects;
+import java.util.UUID;
 
+@Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "raw_material")
 public class RawMaterial {
-    private int rawMaterialId;
+
+    @Id
+    @Column(name = "raw_material_id")
+    private UUID rawMaterialId;
+
+    @Column(name = "raw_material_name")
     private String rawMaterialName;
+
+    @ManyToOne
+    @JoinColumn(name = "raw_material_warehouse_id")
+    private Warehouse rawMaterialWarehouse;
 
     @Override
     public boolean equals(Object o) {
@@ -33,6 +46,7 @@ public class RawMaterial {
         return "RawMaterial{" +
                 "rawMaterialId=" + rawMaterialId +
                 ", rawMaterialName='" + rawMaterialName + '\'' +
+                ", rawMaterialWarehouse=" + rawMaterialWarehouse +
                 '}';
     }
 }
