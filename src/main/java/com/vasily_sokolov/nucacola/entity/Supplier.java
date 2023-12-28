@@ -24,7 +24,7 @@ public class Supplier {
     private String supplierName;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "raw_material_id")
+    @JoinColumn(name = "raw_material_id",referencedColumnName = "raw_material_id")
     private RawMaterial rawMaterial;
 
     @Override

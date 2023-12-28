@@ -26,6 +26,9 @@ public class Product {
     @Column(name = "product_name")
     private String productName;
 
+    @Column(name = "product_price")
+    private double productPrice;
+
     @Column(name = "product_characteristic")
     @Enumerated(EnumType.STRING)
     private ProductCharacteristic characteristic;
@@ -35,11 +38,8 @@ public class Product {
     private ProductCapacityType capacityType;
 
     @ManyToOne
-    @JoinColumn(name = "warehouse_id")
+    @JoinColumn(name = "warehouse_id", referencedColumnName = "warehouse_id")
     private Warehouse finishedProductWarehouse;
-
-    @Column(name = "product_price")
-    private double productPrice;
 
     @Override
     public boolean equals(Object o) {

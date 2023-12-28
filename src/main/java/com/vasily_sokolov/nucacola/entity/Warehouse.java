@@ -26,16 +26,14 @@ public class Warehouse {
     @Column(name = "warehouse_type")
     private WarehouseType warehouseType;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<Product> productList;
-
-
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "rawMaterialWarehouse")
     private List<RawMaterial> rawMaterialList;
 
+    @OneToMany(mappedBy = "finishedProductWarehouse")
+    private List<Product> productList;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "supplier_id")
+    @JoinColumn(name = "supplier_id", referencedColumnName = "supplier_id")
     private Supplier suppliers;
 
     @Override

@@ -16,13 +16,10 @@ import java.util.Objects;
 @AllArgsConstructor
 @Table(name = "sale")
 public class Sale {
+
     @Id
     @Column(name = "sale_id")
     private int saleId;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "product_id")
-    private Product product ;
 
     @Column(name = "sale_date")
     private LocalDate saleDate;
@@ -31,7 +28,11 @@ public class Sale {
     private String customerName;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "warehouse_id")
+    @JoinColumn(name = "product_id", referencedColumnName = "product_id")
+    private Product product;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "warehouse_id", referencedColumnName = "warehouse_id")
     private Warehouse finishedProductWarehouse;
 
     @Override

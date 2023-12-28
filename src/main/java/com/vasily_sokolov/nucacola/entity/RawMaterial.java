@@ -25,7 +25,7 @@ public class RawMaterial {
     private String rawMaterialName;
 
     @ManyToOne
-    @JoinColumn(name = "raw_material_warehouse_id")
+    @JoinColumn(name = "raw_material_warehouse_id",referencedColumnName = "warehouse_id")
     private Warehouse rawMaterialWarehouse;
 
     @Override

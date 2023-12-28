@@ -23,24 +23,25 @@ public class Production {
     @Column(name = "production_id")
     private int productionId;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "warehouse_id_raw_material")
-    private Warehouse rawMaterialWarehouse;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "product_id")
-    private Product product;
-
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<RawMaterial> rawMaterialList;
-
-    @OneToOne
-    @JoinColumn(name = "warehouse_id_product")
-    private Warehouse finishedProductWarehouse;
-
     @Enumerated(EnumType.STRING)
     @Column(name = "status_production")
     private StatusProduction status;
+
+    @OneToMany
+    @JoinColumn(name = "raw_material_id")
+    private List<RawMaterial> rawMaterialList;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "product_id",referencedColumnName = "product_id")
+    private Product product;
+
+    @OneToOne
+    @JoinColumn(name = "warehouse_id_product",referencedColumnName = "warehouse_id")
+    private Warehouse finishedProductWarehouse;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "warehouse_id_raw_material",referencedColumnName = "warehouse_id")
+    private Warehouse rawMaterialWarehouse;
 
     @Override
     public boolean equals(Object o) {
