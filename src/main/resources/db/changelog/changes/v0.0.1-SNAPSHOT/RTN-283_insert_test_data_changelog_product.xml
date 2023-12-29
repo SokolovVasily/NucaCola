@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet author="SokolovVasily" id="insert test data into product_1 table">
+        <insert tableName="product">
+            <column name="product_id" value="10d83df1-7247-4a7e-af09-96d418317ec2"/>
+            <column name="product_name" value="Nuca-Cola"/>
+            <column name="product_characteristic" value="SUGARY"/>
+            <column name="product_capacity_type" value="BIG"/>
+            <column name="warehouse_id" value="2"/>
+            <column name="product_price" value="1.99"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="SokolovVasily" id="insert test data into product_2 table">
+        <insert tableName="product">
+            <column name="product_id" value="2eca2948-7eb2-407e-8666-a953a0b2ccd8"/>
+            <column name="product_name" value="Nuca-Cola"/>
+            <column name="product_characteristic" value="SUGARY"/>
+            <column name="product_capacity_type" value="MEDIUM"/>
+            <column name="warehouse_id" value="2"/>
+            <column name="product_price" value="1.49"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="SokolovVasily" id="insert test data into product_3 table">
+        <insert tableName="product">
+            <column name="product_id" value="78ef236c-4da2-4c03-8e81-70fe0823485e"/>
+            <column name="product_name" value="Nuca-Cola"/>
+            <column name="product_characteristic" value="SUGARY"/>
+            <column name="product_capacity_type" value="SMALL"/>
+            <column name="warehouse_id" value="2"/>
+            <column name="product_price" value="0.99"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="SokolovVasily" id="insert test data into product_4 table">
+        <insert tableName="product">
+            <column name="product_id" value="1c27bc9d-c00b-46c3-bf1c-393a39160168"/>
+            <column name="product_name" value="Nuca-Cola zero"/>
+            <column name="product_characteristic" value="NOT_SUGARY"/>
+            <column name="product_capacity_type" value="MEDIUM"/>
+            <column name="warehouse_id" value="2"/>
+            <column name="product_price" value="1.49"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="SokolovVasily" id="insert test data into product_5 table">
+        <insert tableName="product">
+            <column name="product_id" value="8bc6ca0f-f8b8-4714-85b4-8b05e6cc4680"/>
+            <column name="product_name" value="Nuca-Cola zero"/>
+            <column name="product_characteristic" value="NOT_SUGARY"/>
+            <column name="product_capacity_type" value="BIG"/>
+            <column name="warehouse_id" value="2"/>
+            <column name="product_price" value="1.99"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="SokolovVasily" id="insert test data into product_6 table">
+        <insert tableName="product">
+            <column name="product_id" value="96009103-dcfa-4c0f-977d-528863c5c44c"/>
+            <column name="product_name" value="Nuca-Cola zero"/>
+            <column name="product_characteristic" value="NOT_SUGARY"/>
+            <column name="product_capacity_type" value="SMALL"/>
+            <column name="warehouse_id" value="2"/>
+            <column name="product_price" value="0.99"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet author="SokolovVasily" id="insert test data into sale_1 table">
+        <insert tableName="sale">
+            <column name="sale_id" value="1"/>
+            <column name="product_id" value="78ef236c-4da2-4c03-8e81-70fe0823485e"/>
+            <column name="sale_date" value="2024-05-09"/>
+            <column name="customer_name" value="Supermarket 1"/>
+            <column name="warehouse_id" value="2"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="SokolovVasily" id="insert test data into sale_2 table">
+        <insert tableName="sale">
+            <column name="sale_id" value="2"/>
+            <column name="product_id" value="96009103-dcfa-4c0f-977d-528863c5c44c"/>
+            <column name="sale_date" value="2024-05-09"/>
+            <column name="customer_name" value="Supermarket 1"/>
+            <column name="warehouse_id" value="2"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

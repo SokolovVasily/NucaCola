@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet author="SokolovVasily" id="insert test data into production_1 table">
+        <insert tableName="production">
+            <column name="production_id" value="1"/>
+            <column name="warehouse_id_raw_material" value="1"/>
+            <column name="product_id" value="78ef236c-4da2-4c03-8e81-70fe0823485ev"/>
+            <column name="raw_material_id" value="7d2000c1-8111-420c-a42a-e4eca5b50090"/>
+            <column name="warehouse_id_product" value="2"/>
+            <column name="status_production" value="PROCESS_STOP"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="SokolovVasily" id="insert test data into production_2 table">
+        <insert tableName="production">
+            <column name="production_id" value="2"/>
+            <column name="warehouse_id_raw_material" value="1"/>
+            <column name="product_id" value="2eca2948-7eb2-407e-8666-a953a0b2ccd8"/>
+            <column name="raw_material_id" value="7d2000c1-8111-420c-a42a-e4eca5b50090"/>
+            <column name="warehouse_id_product" value="2"/>
+            <column name="status_production" value="PROCESS_STOP"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="SokolovVasily" id="insert test data into production_3 table">
+        <insert tableName="production">
+            <column name="production_id" value="3"/>
+            <column name="warehouse_id_raw_material" value="1"/>
+            <column name="product_id" value="10d83df1-7247-4a7e-af09-96d418317ec2"/>
+            <column name="raw_material_id" value="7d2000c1-8111-420c-a42a-e4eca5b50090"/>
+            <column name="warehouse_id_product" value="2"/>
+            <column name="status_production" value="PROCESS_STOP"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="SokolovVasily" id="insert test data into production_4 table">
+        <insert tableName="production">
+            <column name="production_id" value="4"/>
+            <column name="warehouse_id_raw_material" value="1"/>
+            <column name="product_id" value="96009103-dcfa-4c0f-977d-528863c5c44c"/>
+            <column name="raw_material_id" value="c8d3fa37-02c8-4455-ae02-21835c436275"/>
+            <column name="warehouse_id_product" value="2"/>
+            <column name="status_production" value="PROCESS_STOP"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="SokolovVasily" id="insert test data into production_5 table">
+        <insert tableName="production">
+            <column name="production_id" value="5"/>
+            <column name="warehouse_id_raw_material" value="1"/>
+            <column name="product_id" value="1c27bc9d-c00b-46c3-bf1c-393a39160168"/>
+            <column name="raw_material_id" value="c8d3fa37-02c8-4455-ae02-21835c436275"/>
+            <column name="warehouse_id_product" value="2"/>
+            <column name="status_production" value="PROCESS_STOP"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="SokolovVasily" id="insert test data into production_6 table">
+        <insert tableName="production">
+            <column name="production_id" value="6"/>
+            <column name="warehouse_id_raw_material" value="1"/>
+            <column name="product_id" value="8bc6ca0f-f8b8-4714-85b4-8b05e6cc4680"/>
+            <column name="raw_material_id" value="c8d3fa37-02c8-4455-ae02-21835c436275"/>
+            <column name="warehouse_id_product" value="2"/>
+            <column name="status_production" value="PROCESS_STOP"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>
