@@ -73,4 +73,5 @@
             <column name="product_price" value="0.99"/>
         </insert>
     </changeSet>
+
 </databaseChangeLog>

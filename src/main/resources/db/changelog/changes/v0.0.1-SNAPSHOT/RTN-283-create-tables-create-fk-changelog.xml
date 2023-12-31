@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet author="SokolovVasily" id="add_fk_product_warehouse">
+        <addForeignKeyConstraint
+                baseColumnNames="warehouse_id"
+                baseTableName="product"
+                constraintName="fk_product_warehouse"
+                referencedColumnNames="warehouse_id"
+                referencedTableName="warehouse"/>
+    </changeSet>
+
+    <changeSet author="SokolovVasily" id="add_fk_production_warehouse_raw_material">
+        <addForeignKeyConstraint
+                baseColumnNames="warehouse_id_raw_material"
+                baseTableName="production"
+                constraintName="fk_production_warehouse_raw_material"
+                referencedColumnNames="warehouse_id"
+                referencedTableName="warehouse"/>
+    </changeSet>
+    <changeSet author="SokolovVasily" id="add_fk_production_product">
+        <addForeignKeyConstraint
+                baseColumnNames="product_id"
+                baseTableName="production"
+                constraintName="fk_production_product"
+                referencedColumnNames="product_id"
+                referencedTableName="product"/>
+    </changeSet>
+    <changeSet author="SokolovVasily" id="add_fk_production_raw_material">
+        <addForeignKeyConstraint
+                baseColumnNames="raw_material_id"
+                baseTableName="production"
+                constraintName="fk_production_raw_material"
+                referencedColumnNames="raw_material_id"
+                referencedTableName="raw_material"/>
+    </changeSet>
+    <changeSet author="SokolovVasily" id="add_fk_production_warehouse_product">
+        <addForeignKeyConstraint
+                baseColumnNames="warehouse_id_product"
+                baseTableName="production"
+                constraintName="fk_production_warehouse_product"
+                referencedColumnNames="warehouse_id"
+                referencedTableName="warehouse"/>
+    </changeSet>
+
+    <changeSet author="SokolovVasily" id="add_fk_sale_warehouse">
+        <addForeignKeyConstraint
+                baseColumnNames="warehouse_id"
+                baseTableName="sale"
+                constraintName="fk_sale_warehouse"
+                referencedColumnNames="warehouse_id"
+                referencedTableName="warehouse"/>
+    </changeSet>
+
+    <changeSet author="SokolovVasily" id="add_fk_sale_product">
+        <addForeignKeyConstraint
+                baseColumnNames="product_id"
+                baseTableName="sale"
+                constraintName="fk_sale_product"
+                referencedColumnNames="product_id"
+                referencedTableName="product"/>
+    </changeSet>
+
+    <changeSet author="SokolovVasily" id="add_fk_supplier_raw_material">
+        <addForeignKeyConstraint
+                baseColumnNames="raw_material_id"
+                baseTableName="supplier"
+                constraintName="fk_supplier_raw_material"
+                referencedColumnNames="raw_material_id"
+                referencedTableName="raw_material"/>
+    </changeSet>
+
+    <changeSet author="SokolovVasily" id="add_fk_warehouse_supplier">
+        <addForeignKeyConstraint
+                baseColumnNames="supplier_id"
+                baseTableName="warehouse"
+                constraintName="fk_warehouse_supplier"
+                referencedColumnNames="supplier_id"
+                referencedTableName="supplier"/>
+    </changeSet>
+
+</databaseChangeLog>

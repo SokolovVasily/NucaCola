@@ -10,7 +10,6 @@
 
     <include file="db/changelog/changes/v0.0.1-SNAPSHOT/RTN-283-create-tables-changelog.xml"/>
 
-
     <include file="db/changelog/changes/v0.0.1-SNAPSHOT/RTN-283_insert_test_data_changelog_raw_material.xml"/>
     <include file="db/changelog/changes/v0.0.1-SNAPSHOT/RTN-283_insert_test_data_changelog_supplier.xml"/>
     <include file="db/changelog/changes/v0.0.1-SNAPSHOT/RTN-283_insert_test_data_changelog_production.xml"/>
@@ -18,5 +17,6 @@
     <include file="db/changelog/changes/v0.0.1-SNAPSHOT/RTN-283_insert_test_data_changelog_sale.xml"/>
     <include file="db/changelog/changes/v0.0.1-SNAPSHOT/RTN-283_insert_test_data_changelog_warehouse.xml"/>
 
-</databaseChangeLog>
+    <include file="db/changelog/changes/v0.0.1-SNAPSHOT/RTN-283-create-tables-create-fk-changelog.xml"/>
 
+</databaseChangeLog>

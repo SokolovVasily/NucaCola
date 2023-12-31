@@ -23,4 +23,5 @@
             <column name="raw_material_warehouse_id" value="1"/>
         </insert>
     </changeSet>
+
 </databaseChangeLog>

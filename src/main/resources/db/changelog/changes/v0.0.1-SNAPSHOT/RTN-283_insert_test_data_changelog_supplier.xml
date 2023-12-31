@@ -20,7 +20,8 @@
         <insert tableName="supplier">
             <column name="supplier_id" value="2"/>
             <column name="supplier_name" value="Jupiter"/>
-            <column name="raw_material_id" value="c8d3fa37-02c8-4455-ae02-21835c43627"/>
+            <column name="raw_material_id" value="c8d3fa37-02c8-4455-ae02-21835c436275"/>
         </insert>
     </changeSet>
+
 </databaseChangeLog>

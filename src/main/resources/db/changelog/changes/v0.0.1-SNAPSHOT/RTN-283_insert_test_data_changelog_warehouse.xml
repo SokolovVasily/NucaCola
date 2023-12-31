@@ -12,7 +12,7 @@
         <insert tableName="warehouse">
             <column name="warehouse_id" value="1"/>
             <column name="warehouse_type" value="RAW_MATERIAL_WAREHOUSE"/>
-            <column name="product_id" value="0"/>
+            <column name="product_id" value="null"/>
             <column name="raw_material_id" value="7d2000c1-8111-420c-a42a-e4eca5b50090"/>
             <column name="supplier_id" value="1"/>
         </insert>
@@ -23,8 +23,8 @@
             <column name="warehouse_id" value="2"/>
             <column name="warehouse_type" value="FINISHED_PRODUCT_WAREHOUSE"/>
             <column name="product_id" value="96009103-dcfa-4c0f-977d-528863c5c44c"/>
-            <column name="raw_material_id" value="0"/>
-            <column name="supplier_id" value="0"/>
+            <column name="raw_material_id" value="null"/>
+            <column name="supplier_id" value="null"/>
         </insert>
     </changeSet>
 
