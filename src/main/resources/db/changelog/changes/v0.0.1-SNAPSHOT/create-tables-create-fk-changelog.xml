@@ -25,6 +25,7 @@
                 referencedColumnNames="warehouse_id"
                 referencedTableName="warehouse"/>
     </changeSet>
+
     <changeSet author="SokolovVasily" id="add_fk_production_product">
         <addForeignKeyConstraint
                 baseColumnNames="product_id"
@@ -33,6 +34,7 @@
                 referencedColumnNames="product_id"
                 referencedTableName="product"/>
     </changeSet>
+
     <changeSet author="SokolovVasily" id="add_fk_production_raw_material">
         <addForeignKeyConstraint
                 baseColumnNames="raw_material_id"
@@ -41,6 +43,7 @@
                 referencedColumnNames="raw_material_id"
                 referencedTableName="raw_material"/>
     </changeSet>
+
     <changeSet author="SokolovVasily" id="add_fk_production_warehouse_product">
         <addForeignKeyConstraint
                 baseColumnNames="warehouse_id_product"
@@ -84,6 +87,33 @@
                 constraintName="fk_warehouse_supplier"
                 referencedColumnNames="supplier_id"
                 referencedTableName="supplier"/>
+    </changeSet>
+
+    <changeSet author="SokolovVasily" id="add_fk_warehouse_product">
+        <addForeignKeyConstraint
+                baseColumnNames="product_id"
+                baseTableName="warehouse"
+                constraintName="fk_warehouse_product"
+                referencedColumnNames="product_id"
+                referencedTableName="product"/>
+    </changeSet>
+
+    <changeSet author="SokolovVasily" id="add_fk_warehouse_raw_material">
+        <addForeignKeyConstraint
+                baseColumnNames="raw_material_id"
+                baseTableName="warehouse"
+                constraintName="fk_warehouse_raw_material"
+                referencedColumnNames="raw_material_id"
+                referencedTableName="raw_material"/>
+    </changeSet>
+
+    <changeSet author="SokolovVasily" id="add_fk_raw_material_raw_material_warehouse">
+        <addForeignKeyConstraint
+                baseColumnNames="raw_material_warehouse_id"
+                baseTableName="raw_material"
+                constraintName="fk_raw_material_raw_material_warehouse"
+                referencedColumnNames="warehouse_id"
+                referencedTableName="warehouse"/>
     </changeSet>
 
 </databaseChangeLog>

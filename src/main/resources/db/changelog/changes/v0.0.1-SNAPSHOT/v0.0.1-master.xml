@@ -8,15 +8,15 @@
         http://www.liquibase.org/xml/ns/dbchangelog-ext
         https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-    <include file="db/changelog/changes/v0.0.1-SNAPSHOT/RTN-283-create-tables-changelog.xml"/>
+    <include file="/db/changelog/changes/v0.0.1-SNAPSHOT/create-tables-changelog.xml"/>
 
-    <include file="db/changelog/changes/v0.0.1-SNAPSHOT/RTN-283_insert_test_data_changelog_raw_material.xml"/>
-    <include file="db/changelog/changes/v0.0.1-SNAPSHOT/RTN-283_insert_test_data_changelog_supplier.xml"/>
-    <include file="db/changelog/changes/v0.0.1-SNAPSHOT/RTN-283_insert_test_data_changelog_production.xml"/>
-    <include file="db/changelog/changes/v0.0.1-SNAPSHOT/RTN-283_insert_test_data_changelog_product.xml"/>
-    <include file="db/changelog/changes/v0.0.1-SNAPSHOT/RTN-283_insert_test_data_changelog_sale.xml"/>
-    <include file="db/changelog/changes/v0.0.1-SNAPSHOT/RTN-283_insert_test_data_changelog_warehouse.xml"/>
+    <include file="/db/changelog/changes/v0.0.1-SNAPSHOT/insert_test_data_changelog_raw_material.xml"/>
+    <include file="/db/changelog/changes/v0.0.1-SNAPSHOT/insert_test_data_changelog_supplier.xml"/>
+    <include file="/db/changelog/changes/v0.0.1-SNAPSHOT/insert_test_data_changelog_production.xml"/>
+    <include file="/db/changelog/changes/v0.0.1-SNAPSHOT/insert_test_data_changelog_product.xml"/>
+    <include file="/db/changelog/changes/v0.0.1-SNAPSHOT/insert_test_data_changelog_sale.xml"/>
+    <include file="/db/changelog/changes/v0.0.1-SNAPSHOT/insert_test_data_changelog_warehouse.xml"/>
 
-    <include file="db/changelog/changes/v0.0.1-SNAPSHOT/RTN-283-create-tables-create-fk-changelog.xml"/>
+    <include file="/db/changelog/changes/v0.0.1-SNAPSHOT/create-tables-create-fk-changelog.xml"/>
 
 </databaseChangeLog>
