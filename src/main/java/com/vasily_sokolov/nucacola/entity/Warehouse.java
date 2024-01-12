@@ -32,10 +32,6 @@ public class Warehouse {
     @OneToMany(mappedBy = "finishedProductWarehouse")
     private List<Product> productList;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "supplier_id", referencedColumnName = "supplier_id")
-    private Supplier suppliers;
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -55,7 +51,6 @@ public class Warehouse {
                 "warehouseId=" + warehouseId +
                 ", warehouseType=" + warehouseType +
                 ", productList=" + productList +
-                ", suppliers=" + suppliers +
                 '}';
     }
 }
