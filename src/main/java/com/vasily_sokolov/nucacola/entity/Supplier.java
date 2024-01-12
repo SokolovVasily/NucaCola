@@ -23,7 +23,7 @@ public class Supplier {
     @Column(name = "supplier_name")
     private String supplierName;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "raw_material_id",referencedColumnName = "raw_material_id")
     private RawMaterial rawMaterial;
 

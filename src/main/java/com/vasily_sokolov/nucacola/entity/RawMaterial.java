@@ -28,6 +28,10 @@ public class RawMaterial {
     @JoinColumn(name = "raw_material_warehouse_id",referencedColumnName = "warehouse_id")
     private Warehouse rawMaterialWarehouse;
 
+    @OneToOne
+    @JoinColumn(name = "supplier_id",referencedColumnName = "supplier_id")
+    private Supplier supplier;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -47,6 +51,7 @@ public class RawMaterial {
                 "rawMaterialId=" + rawMaterialId +
                 ", rawMaterialName='" + rawMaterialName + '\'' +
                 ", rawMaterialWarehouse=" + rawMaterialWarehouse +
+                ", supplier=" + supplier +
                 '}';
     }
 }

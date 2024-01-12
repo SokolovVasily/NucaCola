@@ -80,6 +80,9 @@
             <column name="raw_material_warehouse_id" type="int">
                 <constraints nullable="false"/>
             </column>
+            <column name="supplier_id" type="int">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
     </changeSet>
 
@@ -144,9 +147,6 @@
                 <constraints nullable="true"/>
             </column>
             <column name="raw_material_id" type="varchar(36)">
-                <constraints nullable="true"/>
-            </column>
-            <column name="supplier_id" type="int">
                 <constraints nullable="true"/>
             </column>
         </createTable>

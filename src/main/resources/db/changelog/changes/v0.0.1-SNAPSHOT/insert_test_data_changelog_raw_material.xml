@@ -13,6 +13,7 @@
             <column name="raw_material_id" value="7d2000c1-8111-420c-a42a-e4eca5b50090"/>
             <column name="raw_material_name" value="secret ingredient for  sugar drink"/>
             <column name="raw_material_warehouse_id" value="1"/>
+            <column name="supplier_id" value="1"/>
         </insert>
     </changeSet>
 
@@ -21,6 +22,7 @@
             <column name="raw_material_id" value="c8d3fa37-02c8-4455-ae02-21835c436275"/>
             <column name="raw_material_name" value="secret ingredient for not sugar drink"/>
             <column name="raw_material_warehouse_id" value="1"/>
+            <column name="supplier_id" value="2"/>
         </insert>
     </changeSet>
 

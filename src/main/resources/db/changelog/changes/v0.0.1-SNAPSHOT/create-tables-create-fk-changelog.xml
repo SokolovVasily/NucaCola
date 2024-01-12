@@ -80,15 +80,6 @@
                 referencedTableName="raw_material"/>
     </changeSet>
 
-    <changeSet author="SokolovVasily" id="add_fk_warehouse_supplier">
-        <addForeignKeyConstraint
-                baseColumnNames="supplier_id"
-                baseTableName="warehouse"
-                constraintName="fk_warehouse_supplier"
-                referencedColumnNames="supplier_id"
-                referencedTableName="supplier"/>
-    </changeSet>
-
     <changeSet author="SokolovVasily" id="add_fk_warehouse_product">
         <addForeignKeyConstraint
                 baseColumnNames="product_id"
@@ -116,4 +107,12 @@
                 referencedTableName="warehouse"/>
     </changeSet>
 
+    <changeSet author="SokolovVasily" id="add_fk_raw_material_supplier">
+        <addForeignKeyConstraint
+                baseColumnNames="supplier_id"
+                baseTableName="raw_material"
+                constraintName="fk_raw_material_supplier"
+                referencedColumnNames="supplier_id"
+                referencedTableName="supplier"/>
+    </changeSet>
 </databaseChangeLog>
