@@ -1,10 +1,13 @@
 package com.vasily_sokolov.nucacola.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -18,6 +21,7 @@ import java.util.UUID;
 public class RawMaterial {
 
     @Id
+    @JdbcTypeCode(SqlTypes.VARCHAR)
     @Column(name = "raw_material_id")
     private UUID rawMaterialId;
 
@@ -25,6 +29,7 @@ public class RawMaterial {
     private String rawMaterialName;
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "raw_material_warehouse_id",referencedColumnName = "warehouse_id")
     private Warehouse rawMaterialWarehouse;
 

@@ -1,5 +1,6 @@
 package com.vasily_sokolov.nucacola.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,6 +25,7 @@ public class Supplier {
     private String supplierName;
 
     @OneToOne
+    @JsonIgnore
     @JoinColumn(name = "raw_material_id",referencedColumnName = "raw_material_id")
     private RawMaterial rawMaterial;
 
