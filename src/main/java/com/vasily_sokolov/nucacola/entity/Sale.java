@@ -1,5 +1,6 @@
 package com.vasily_sokolov.nucacola.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -32,6 +33,7 @@ public class Sale {
     private Product product;
 
     @OneToOne(cascade = CascadeType.ALL)
+    @JsonIgnore
     @JoinColumn(name = "warehouse_id", referencedColumnName = "warehouse_id")
     private Warehouse finishedProductWarehouse;
 

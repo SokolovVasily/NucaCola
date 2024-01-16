@@ -1,5 +1,7 @@
 package com.vasily_sokolov.nucacola.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.vasily_sokolov.nucacola.entity.enums.ProductCapacityType;
 import com.vasily_sokolov.nucacola.entity.enums.ProductCharacteristic;
 import jakarta.persistence.*;
@@ -7,6 +9,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -20,6 +24,7 @@ import java.util.UUID;
 public class Product {
 
     @Id
+    @JdbcTypeCode(SqlTypes.VARCHAR)
     @Column(name = "product_id")
     private UUID productId;
 
@@ -38,6 +43,7 @@ public class Product {
     private ProductCapacityType capacityType;
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "warehouse_id", referencedColumnName = "warehouse_id")
     private Warehouse finishedProductWarehouse;
 
