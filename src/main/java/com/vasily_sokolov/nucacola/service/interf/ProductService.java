@@ -10,5 +10,10 @@ public interface ProductService {
     List<Product> getAllProducts();
 
     List<Product> getProductsByCharacteristic(String characteristic);
-}
 
+    Product postCreateProduct(Product product);
+
+    void updateProductPrice(String productId, String productPrice);
+
+    void deleteProductById(String productId);
+}

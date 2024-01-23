@@ -1,5 +1,6 @@
 package com.vasily_sokolov.nucacola.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.vasily_sokolov.nucacola.entity.enums.StatusProduction;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -27,19 +28,19 @@ public class Production {
     @Column(name = "status_production")
     private StatusProduction status;
 
-    @OneToMany
-    @JoinColumn(name = "raw_material_id")
+    @OneToMany(mappedBy = "production", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @JsonManagedReference("productionRawMaterialFk")
     private List<RawMaterial> rawMaterialList;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "product_id",referencedColumnName = "product_id")
-    private Product product;
+    @OneToMany(mappedBy = "production", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @JsonManagedReference("productProductionFk")
+    private List<Product> product;
 
     @OneToOne
     @JoinColumn(name = "warehouse_id_product",referencedColumnName = "warehouse_id")
     private Warehouse finishedProductWarehouse;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "warehouse_id_raw_material",referencedColumnName = "warehouse_id")
     private Warehouse rawMaterialWarehouse;
 

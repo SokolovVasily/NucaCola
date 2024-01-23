@@ -14,7 +14,9 @@
                 baseTableName="product"
                 constraintName="fk_product_warehouse"
                 referencedColumnNames="warehouse_id"
-                referencedTableName="warehouse"/>
+                referencedTableName="warehouse"
+                onDelete="CASCADE"
+                onUpdate="CASCADE"/>
     </changeSet>
 
     <changeSet author="SokolovVasily" id="add_fk_production_warehouse_raw_material">
@@ -23,25 +25,31 @@
                 baseTableName="production"
                 constraintName="fk_production_warehouse_raw_material"
                 referencedColumnNames="warehouse_id"
-                referencedTableName="warehouse"/>
+                referencedTableName="warehouse"
+                onDelete="CASCADE"
+                onUpdate="CASCADE"/>
     </changeSet>
 
-    <changeSet author="SokolovVasily" id="add_fk_production_product">
+    <changeSet author="SokolovVasily" id="add_fk_product_production">
         <addForeignKeyConstraint
-                baseColumnNames="product_id"
-                baseTableName="production"
-                constraintName="fk_production_product"
-                referencedColumnNames="product_id"
-                referencedTableName="product"/>
+                baseColumnNames="production_id"
+                baseTableName="product"
+                constraintName="fk_product_production"
+                referencedColumnNames="production_id"
+                referencedTableName="production"
+                onDelete="CASCADE"
+                onUpdate="CASCADE"/>
     </changeSet>
 
-    <changeSet author="SokolovVasily" id="add_fk_production_raw_material">
+    <changeSet author="SokolovVasily" id="add_fk_raw_material_production">
         <addForeignKeyConstraint
-                baseColumnNames="raw_material_id"
-                baseTableName="production"
-                constraintName="fk_production_raw_material"
-                referencedColumnNames="raw_material_id"
-                referencedTableName="raw_material"/>
+                baseColumnNames="production_id"
+                baseTableName="raw_material"
+                constraintName="fk_raw_material_production"
+                referencedColumnNames="production_id"
+                referencedTableName="production"
+                onDelete="CASCADE"
+                onUpdate="CASCADE"/>
     </changeSet>
 
     <changeSet author="SokolovVasily" id="add_fk_production_warehouse_product">
@@ -50,16 +58,9 @@
                 baseTableName="production"
                 constraintName="fk_production_warehouse_product"
                 referencedColumnNames="warehouse_id"
-                referencedTableName="warehouse"/>
-    </changeSet>
-
-    <changeSet author="SokolovVasily" id="add_fk_sale_warehouse">
-        <addForeignKeyConstraint
-                baseColumnNames="warehouse_id"
-                baseTableName="sale"
-                constraintName="fk_sale_warehouse"
-                referencedColumnNames="warehouse_id"
-                referencedTableName="warehouse"/>
+                referencedTableName="warehouse"
+                onDelete="CASCADE"
+                onUpdate="CASCADE"/>
     </changeSet>
 
     <changeSet author="SokolovVasily" id="add_fk_sale_product">
@@ -68,34 +69,9 @@
                 baseTableName="sale"
                 constraintName="fk_sale_product"
                 referencedColumnNames="product_id"
-                referencedTableName="product"/>
-    </changeSet>
-
-    <changeSet author="SokolovVasily" id="add_fk_supplier_raw_material">
-        <addForeignKeyConstraint
-                baseColumnNames="raw_material_id"
-                baseTableName="supplier"
-                constraintName="fk_supplier_raw_material"
-                referencedColumnNames="raw_material_id"
-                referencedTableName="raw_material"/>
-    </changeSet>
-
-    <changeSet author="SokolovVasily" id="add_fk_warehouse_product">
-        <addForeignKeyConstraint
-                baseColumnNames="product_id"
-                baseTableName="warehouse"
-                constraintName="fk_warehouse_product"
-                referencedColumnNames="product_id"
-                referencedTableName="product"/>
-    </changeSet>
-
-    <changeSet author="SokolovVasily" id="add_fk_warehouse_raw_material">
-        <addForeignKeyConstraint
-                baseColumnNames="raw_material_id"
-                baseTableName="warehouse"
-                constraintName="fk_warehouse_raw_material"
-                referencedColumnNames="raw_material_id"
-                referencedTableName="raw_material"/>
+                referencedTableName="product"
+                onDelete="CASCADE"
+                onUpdate="CASCADE"/>
     </changeSet>
 
     <changeSet author="SokolovVasily" id="add_fk_raw_material_raw_material_warehouse">
@@ -104,7 +80,9 @@
                 baseTableName="raw_material"
                 constraintName="fk_raw_material_raw_material_warehouse"
                 referencedColumnNames="warehouse_id"
-                referencedTableName="warehouse"/>
+                referencedTableName="warehouse"
+                onDelete="CASCADE"
+                onUpdate="CASCADE"/>
     </changeSet>
 
     <changeSet author="SokolovVasily" id="add_fk_raw_material_supplier">
@@ -113,6 +91,9 @@
                 baseTableName="raw_material"
                 constraintName="fk_raw_material_supplier"
                 referencedColumnNames="supplier_id"
-                referencedTableName="supplier"/>
+                referencedTableName="supplier"
+                onDelete="CASCADE"
+                onUpdate="CASCADE"/>
     </changeSet>
+
 </databaseChangeLog>

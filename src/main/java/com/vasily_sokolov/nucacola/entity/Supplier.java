@@ -1,12 +1,14 @@
 package com.vasily_sokolov.nucacola.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -24,10 +26,9 @@ public class Supplier {
     @Column(name = "supplier_name")
     private String supplierName;
 
-    @OneToOne
-    @JsonIgnore
-    @JoinColumn(name = "raw_material_id",referencedColumnName = "raw_material_id")
-    private RawMaterial rawMaterial;
+    @OneToMany(mappedBy = "supplier" , cascade = CascadeType.ALL , fetch = FetchType.LAZY)
+    @JsonManagedReference("supplierRawMaterialFk")
+    private List<RawMaterial> rawMaterial;
 
     @Override
     public boolean equals(Object o) {

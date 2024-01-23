@@ -28,10 +28,13 @@
                 <constraints nullable="false"/>
             </column>
             <column name="warehouse_id" type="int">
-                <constraints nullable="false"/>
+                <constraints nullable="true"/>
             </column>
             <column name="product_price" type="decimal(8, 2)">
                 <constraints nullable="false"/>
+            </column>
+            <column name="production_id" type="int">
+                <constraints nullable="true"/>
             </column>
         </createTable>
     </changeSet>
@@ -47,12 +50,6 @@
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="warehouse_id_raw_material" type="int">
-                <constraints nullable="false"/>
-            </column>
-            <column name="product_id" type="varchar(36)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="raw_material_id" type="varchar(36)">
                 <constraints nullable="false"/>
             </column>
             <column name="warehouse_id_product" type="int">
@@ -83,6 +80,9 @@
             <column name="supplier_id" type="int">
                 <constraints nullable="false"/>
             </column>
+            <column name="production_id" type="int">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
     </changeSet>
 
@@ -93,8 +93,8 @@
             </not>
         </preConditions>
         <createTable tableName="sale">
-            <column name="sale_id" type="int">
-                <constraints primaryKey="true" nullable="false"/>
+            <column name="sale_id" type="varchar(36)">
+                <constraints primaryKey="true" nullable="false" />
             </column>
             <column name="product_id" type="varchar(36)">
                 <constraints nullable="false"/>
@@ -103,9 +103,6 @@
                 <constraints nullable="false"/>
             </column>
             <column name="customer_name" type="varchar(45)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="warehouse_id" type="int">
                 <constraints nullable="false"/>
             </column>
         </createTable>
@@ -122,10 +119,7 @@
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="supplier_name" type="varchar(45)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="raw_material_id" type="varchar(36)">
-                <constraints nullable="false"/>
+                <constraints nullable="true"/>
             </column>
         </createTable>
     </changeSet>
@@ -142,12 +136,6 @@
             </column>
             <column name="warehouse_type" type="varchar(45)">
                 <constraints nullable="false"/>
-            </column>
-            <column name="product_id" type="varchar(36)">
-                <constraints nullable="true"/>
-            </column>
-            <column name="raw_material_id" type="varchar(36)">
-                <constraints nullable="true"/>
             </column>
         </createTable>
     </changeSet>

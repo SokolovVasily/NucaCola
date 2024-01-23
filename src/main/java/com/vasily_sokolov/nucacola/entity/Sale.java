@@ -1,14 +1,19 @@
 package com.vasily_sokolov.nucacola.entity;
 
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.annotations.UuidGenerator;
+import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDate;
 import java.util.Objects;
+import java.util.UUID;
 
 @Entity
 @Getter
@@ -19,8 +24,10 @@ import java.util.Objects;
 public class Sale {
 
     @Id
+    @UuidGenerator
+    @JdbcTypeCode(SqlTypes.VARCHAR)
     @Column(name = "sale_id")
-    private int saleId;
+    private UUID saleId;
 
     @Column(name = "sale_date")
     private LocalDate saleDate;
@@ -28,14 +35,10 @@ public class Sale {
     @Column(name = "customer_name")
     private String customerName;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "product_id", referencedColumnName = "product_id")
     private Product product;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JsonIgnore
-    @JoinColumn(name = "warehouse_id", referencedColumnName = "warehouse_id")
-    private Warehouse finishedProductWarehouse;
 
     @Override
     public boolean equals(Object o) {
@@ -57,7 +60,6 @@ public class Sale {
                 ", product=" + product +
                 ", saleDate=" + saleDate +
                 ", customerName='" + customerName + '\'' +
-                ", finishedProductWarehouse=" + finishedProductWarehouse +
                 '}';
     }
 }
