@@ -1,16 +1,17 @@
 package com.vasily_sokolov.nucacola.service.interf;
 
+import com.vasily_sokolov.nucacola.dto.RawMaterialDto;
 import com.vasily_sokolov.nucacola.entity.RawMaterial;
 
 import java.util.List;
 
 public interface RawMaterialService {
 
-    List<RawMaterial> getRawMaterialsByName(String name);
+    List<RawMaterialDto> getRawMaterialsByName(String name);
 
-    List<RawMaterial> getAllRawMaterials();
+    List<RawMaterialDto> getAllRawMaterials();
 
-    RawMaterial postCreateRawMaterial(RawMaterial rawMaterial);
+    RawMaterialDto postCreateRawMaterial(RawMaterialDto rawMaterialDto);
 
     void updateRawMaterialName(String rawMaterialId, String name);
 

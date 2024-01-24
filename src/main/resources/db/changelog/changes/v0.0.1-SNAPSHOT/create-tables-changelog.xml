@@ -75,13 +75,13 @@
                 <constraints nullable="false"/>
             </column>
             <column name="raw_material_warehouse_id" type="int">
-                <constraints nullable="false"/>
+                <constraints nullable="true"/>
             </column>
             <column name="supplier_id" type="int">
                 <constraints nullable="false"/>
             </column>
             <column name="production_id" type="int">
-                <constraints nullable="false"/>
+                <constraints nullable="true"/>
             </column>
         </createTable>
     </changeSet>

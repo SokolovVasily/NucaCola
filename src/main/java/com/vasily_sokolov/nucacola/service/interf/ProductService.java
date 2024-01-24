@@ -1,19 +1,30 @@
 package com.vasily_sokolov.nucacola.service.interf;
 
+import com.vasily_sokolov.nucacola.dto.ProductDto;
 import com.vasily_sokolov.nucacola.entity.Product;
+import com.vasily_sokolov.nucacola.entity.enums.ProductCapacityType;
+import com.vasily_sokolov.nucacola.entity.enums.ProductCharacteristic;
 
 import java.util.List;
 
 public interface ProductService {
-    List<Product> getProductsByName(String name);
+    List<ProductDto> getProductsByName(String name);
 
-    List<Product> getAllProducts();
+    List<ProductDto> getAllProducts();
 
-    List<Product> getProductsByCharacteristic(String characteristic);
+    List<ProductDto> getProductsByCharacteristic(String characteristic);
 
-    Product postCreateProduct(Product product);
+    List<ProductDto> getProductsByNameAndCharacteristic(String name, String characteristic);
+
+    List<ProductDto> getProductsByCapacityAndCharacteristic(
+            String capacityType, String characteristic);
+
+    ProductDto postCreateProduct(ProductDto productDto);
 
     void updateProductPrice(String productId, String productPrice);
 
     void deleteProductById(String productId);
+
+
+
 }

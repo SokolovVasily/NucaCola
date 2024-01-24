@@ -74,6 +74,7 @@
                 onUpdate="CASCADE"/>
     </changeSet>
 
+
     <changeSet author="SokolovVasily" id="add_fk_raw_material_raw_material_warehouse">
         <addForeignKeyConstraint
                 baseColumnNames="raw_material_warehouse_id"

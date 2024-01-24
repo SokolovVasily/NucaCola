@@ -1,6 +1,7 @@
 package com.vasily_sokolov.nucacola.controller.page;
 
 
+import com.vasily_sokolov.nucacola.dto.RawMaterialDto;
 import com.vasily_sokolov.nucacola.entity.RawMaterial;
 import com.vasily_sokolov.nucacola.service.interf.RawMaterialService;
 import lombok.RequiredArgsConstructor;
@@ -16,18 +17,18 @@ public class RawMaterialController {
     private final RawMaterialService rawMaterialService;
 
     @GetMapping("/name/{name}")    //("/{не отображается  в запросе}")
-    public List<RawMaterial> getRawMaterialsByName(@PathVariable("name") String name) {
+    public List<RawMaterialDto> getRawMaterialsByName(@PathVariable("name") String name) {
         return rawMaterialService.getRawMaterialsByName(name);
     }
 
     @GetMapping("/all")
-    public List<RawMaterial> getAllRawMaterials() {
+    public List<RawMaterialDto> getAllRawMaterials() {
         return rawMaterialService.getAllRawMaterials();
     }
 
     @PostMapping("/create")
-    public RawMaterial postCreateRawMaterial(@RequestBody RawMaterial rawMaterial) {
-        return rawMaterialService.postCreateRawMaterial(rawMaterial);
+    public RawMaterialDto postCreateRawMaterial(@RequestBody RawMaterialDto rawMaterialDto) {
+        return rawMaterialService.postCreateRawMaterial(rawMaterialDto);
     }
 
     @PutMapping("/put")

@@ -1,7 +1,11 @@
 package com.vasily_sokolov.nucacola.service.impl;
 
+import com.vasily_sokolov.nucacola.dto.RawMaterialDto;
 import com.vasily_sokolov.nucacola.entity.RawMaterial;
+import com.vasily_sokolov.nucacola.entity.Supplier;
+import com.vasily_sokolov.nucacola.mapper.RawMaterialMapper;
 import com.vasily_sokolov.nucacola.repository.RawMaterialRepository;
+import com.vasily_sokolov.nucacola.repository.SupplierRepository;
 import com.vasily_sokolov.nucacola.service.interf.RawMaterialService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,19 +20,29 @@ public class RawMaterialServiceImpl implements RawMaterialService {
 
     private final RawMaterialRepository rawMaterialRepository;
 
+    private final SupplierRepository supplierRepository;
+
+    private final RawMaterialMapper rawMaterialMapper;
+
+
     @Override
-    public List<RawMaterial> getRawMaterialsByName(String name) {
-        return rawMaterialRepository.getRawMaterialsByName(name);
+    public List<RawMaterialDto> getRawMaterialsByName(String name) {
+        return rawMaterialMapper.rawMaterialToRawMaterialDto(rawMaterialRepository.getRawMaterialsByName(name));
     }
 
     @Override
-    public List<RawMaterial> getAllRawMaterials() {
-        return rawMaterialRepository.findAll();
+    public List<RawMaterialDto> getAllRawMaterials() {
+        return rawMaterialMapper.rawMaterialToRawMaterialDto(rawMaterialRepository.findAll());
     }
 
     @Override
-    public RawMaterial postCreateRawMaterial(RawMaterial rawMaterial) {
-        return rawMaterialRepository.save(rawMaterial);
+    public RawMaterialDto postCreateRawMaterial(RawMaterialDto rawMaterialDto) {
+        Supplier supplier = supplierRepository.getSupplierByName(rawMaterialDto.getSupplierName());
+        RawMaterial rawMaterial = RawMaterial.builder()
+                .rawMaterialName(rawMaterialDto.getRawMaterialName())
+                .supplier(supplier)
+                .build();
+        return rawMaterialMapper.toDto(rawMaterialRepository.save(rawMaterial));
     }
 
     @Transactional

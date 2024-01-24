@@ -1,23 +1,21 @@
 package com.vasily_sokolov.nucacola.entity;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.UuidGenerator;
 import org.hibernate.type.SqlTypes;
 
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
 
 @Entity
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "sale")
@@ -30,7 +28,7 @@ public class Sale {
     private UUID saleId;
 
     @Column(name = "sale_date")
-    private LocalDate saleDate;
+    private Date saleDate;
 
     @Column(name = "customer_name")
     private String customerName;

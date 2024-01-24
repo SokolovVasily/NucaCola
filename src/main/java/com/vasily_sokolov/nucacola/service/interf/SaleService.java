@@ -1,5 +1,6 @@
 package com.vasily_sokolov.nucacola.service.interf;
 
+import com.vasily_sokolov.nucacola.dto.SaleDto;
 import com.vasily_sokolov.nucacola.entity.Sale;
 
 import java.util.List;
@@ -7,11 +8,11 @@ import java.util.List;
 
 public interface SaleService {
 
-    Sale getSaleById(String saleId);
+    SaleDto getSaleById(String saleId);
 
-    List<Sale> getSalesByCustomerName(String customerName);
+    List<SaleDto> getSalesByCustomerName(String customerName);
 
-    Sale postCreateNewSale(Sale sale);
+    SaleDto postCreateNewSale(SaleDto saleDto);
 
     void updateSaleCustomerName(String saleId, String customerName);
 

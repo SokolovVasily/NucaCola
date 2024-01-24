@@ -1,7 +1,10 @@
 package com.vasily_sokolov.nucacola.service.impl;
 
+import com.vasily_sokolov.nucacola.dto.ProductDto;
 import com.vasily_sokolov.nucacola.entity.Product;
+import com.vasily_sokolov.nucacola.entity.enums.ProductCapacityType;
 import com.vasily_sokolov.nucacola.entity.enums.ProductCharacteristic;
+import com.vasily_sokolov.nucacola.mapper.ProductMapper;
 import com.vasily_sokolov.nucacola.repository.ProductRepository;
 import com.vasily_sokolov.nucacola.service.interf.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -16,26 +19,52 @@ import java.util.UUID;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
+    private final ProductMapper productMapper;
 
     @Override
-    public List<Product> getProductsByName(String name) {
-        return productRepository.getProductsByName(name);
+    public List<ProductDto> getProductsByName(String name) {
+        return productMapper.productsToProductsDto(productRepository.getProductsByName(name));
     }
 
     @Override
-    public List<Product> getAllProducts() {
-        return productRepository.getAllProducts();
+    public List<ProductDto> getAllProducts() {
+        return productMapper.productsToProductsDto(productRepository.getAllProducts());
     }
 
     @Override
-    public List<Product> getProductsByCharacteristic(String characteristic) {
-        return productRepository.getProductsByCharacteristic((ProductCharacteristic.valueOf(characteristic)));
+    public List<ProductDto> getProductsByCharacteristic(String characteristic) {
+        return productMapper.productsToProductsDto(
+                productRepository.getProductsByCharacteristic((ProductCharacteristic.valueOf(characteristic))));
+    }
+
+    @Override
+    public List<ProductDto> getProductsByNameAndCharacteristic(String name, String characteristic) {
+        return productMapper.productsToProductsDto(
+                productRepository.getProductsByNameAndCharacteristic(
+                        name,
+                        ProductCharacteristic.valueOf(characteristic)
+                ));
+    }
+
+    @Override
+    public List<ProductDto> getProductsByCapacityAndCharacteristic(String capacityType, String characteristic) {
+        return productMapper.productsToProductsDto(
+                productRepository.getProductsByCapacityAndCharacteristic(
+                        ProductCapacityType.valueOf(capacityType),
+                        ProductCharacteristic.valueOf(characteristic)
+                ));
     }
 
     @Override
     @Transactional
-    public Product postCreateProduct(Product product) {
-        return productRepository.save(product);
+    public ProductDto postCreateProduct(ProductDto productDto) {
+        Product product = Product.builder()
+                .productName(productDto.getProductName())
+                .productPrice(productDto.getProductPrice())
+                .characteristic(productDto.getCharacteristic())
+                .capacityType(productDto.getCapacityType())
+                .build();
+        return productMapper.toDto(productRepository.save(product));
     }
 
     @Override
