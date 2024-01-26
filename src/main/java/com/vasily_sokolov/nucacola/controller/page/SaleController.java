@@ -1,7 +1,8 @@
 package com.vasily_sokolov.nucacola.controller.page;
 
+
 import com.vasily_sokolov.nucacola.dto.SaleDto;
-import com.vasily_sokolov.nucacola.entity.Product;
+
 import com.vasily_sokolov.nucacola.entity.Sale;
 import com.vasily_sokolov.nucacola.service.interf.SaleService;
 import lombok.RequiredArgsConstructor;
@@ -17,20 +18,33 @@ public class SaleController {
     private final SaleService saleService;
 
     @GetMapping("/saleId/{saleId}")
-    public SaleDto getSaleById(@PathVariable("saleId")String saleId){
+    public SaleDto getSaleById(@PathVariable("saleId") String saleId) {
         return saleService.getSaleById(saleId);
     }
     // http://localhost:8080/sale/saleId/1
     // http://localhost:8080/sale/saleId/2
 
     @GetMapping("/customerName/{customerName}")
-    public List<SaleDto> getSalesByCustomerName(@PathVariable("customerName")String customerName){
+    public List<SaleDto> getSalesByCustomerName(@PathVariable("customerName") String customerName) {
         return saleService.getSalesByCustomerName(customerName);
     }
     // http://localhost:8080/sale/customerName/Supermarket 1
 
+    @GetMapping("/all")
+    public List<SaleDto> getAllSales() {
+        return saleService.getAllSales();
+    }
+
+    @GetMapping("/CustomerNameAndProductName/")
+    public List<SaleDto> getSalesByCustomerNameAndProductName(
+            @RequestParam String customerName,
+            @RequestParam String productName
+    ) {
+        return saleService.getSalesByCustomerNameAndProductName(customerName, productName);
+    }
+
     @PostMapping("/create")
-    public SaleDto postCreateNewSale(@RequestBody SaleDto saleDto) {
+    public Sale postCreateNewSale(@RequestBody SaleDto saleDto) {
         return saleService.postCreateNewSale(saleDto);
     }
 

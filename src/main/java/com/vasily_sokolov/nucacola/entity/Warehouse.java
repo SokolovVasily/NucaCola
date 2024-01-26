@@ -1,6 +1,5 @@
 package com.vasily_sokolov.nucacola.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.vasily_sokolov.nucacola.entity.enums.WarehouseType;
 import jakarta.persistence.*;
@@ -28,7 +27,7 @@ public class Warehouse {
     @Column(name = "warehouse_type")
     private WarehouseType warehouseType;
 
-   // @JsonManagedReference("warehouseRawMaterialFk")
+    @JsonManagedReference("warehouseRawMaterialFk")
     @OneToMany(mappedBy = "rawMaterialWarehouse", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<RawMaterial> rawMaterialList;
 

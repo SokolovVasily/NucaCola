@@ -15,8 +15,14 @@ public interface SaleRepository extends JpaRepository<Sale, UUID> {
     @Query("select s from Sale s where s.customerName = :customerName")
     List<Sale> getSalesByCustomerName(String customerName);
 
+    @Query("select s from Sale s where s.customerName = " +
+            ":customerName and s.product.productName = :productName")
+    List<Sale> getSalesByCustomerNameAndProductName(String customerName, String productName);
+
     @Modifying
     @Query("update Sale s set s.customerName = :customerName where s.saleId = :saleId")
     void updateSaleCustomerName(UUID saleId, String customerName);
+
+
 
 }

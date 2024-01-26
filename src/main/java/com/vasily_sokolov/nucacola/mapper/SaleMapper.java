@@ -15,9 +15,13 @@ import java.util.List;
 public interface SaleMapper {
     List<SaleDto> salesToSalesDto(List<Sale> sales);
 
-    @Mapping(source = "customerName", target = "customerName")
     @Mapping(source = "product.productId", target = "productId")
     @Mapping(source = "product.productName", target = "productName")
-   // @Mapping(target = "saleDate",expression = "java(new Date(System.currentTimeMillis()))")
     SaleDto toDto(Sale sale);
+
+    @Mapping(target = "product.productId", source= "productId")
+    @Mapping(target = "product.productName", source = "productName")
+    @Mapping(target = "saleDate",expression = "java(new Date(System.currentTimeMillis()))")
+    Sale toEntity(SaleDto sale);
+
 }

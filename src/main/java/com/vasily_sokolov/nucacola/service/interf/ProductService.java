@@ -1,9 +1,6 @@
 package com.vasily_sokolov.nucacola.service.interf;
 
 import com.vasily_sokolov.nucacola.dto.ProductDto;
-import com.vasily_sokolov.nucacola.entity.Product;
-import com.vasily_sokolov.nucacola.entity.enums.ProductCapacityType;
-import com.vasily_sokolov.nucacola.entity.enums.ProductCharacteristic;
 
 import java.util.List;
 
@@ -24,7 +21,6 @@ public interface ProductService {
     void updateProductPrice(String productId, String productPrice);
 
     void deleteProductById(String productId);
-
 
 
 }

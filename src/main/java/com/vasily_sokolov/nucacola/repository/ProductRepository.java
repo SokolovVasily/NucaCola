@@ -1,6 +1,6 @@
 package com.vasily_sokolov.nucacola.repository;
 
-import com.vasily_sokolov.nucacola.dto.ProductDto;
+
 import com.vasily_sokolov.nucacola.entity.Product;
 import com.vasily_sokolov.nucacola.entity.enums.ProductCapacityType;
 import com.vasily_sokolov.nucacola.entity.enums.ProductCharacteristic;

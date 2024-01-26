@@ -1,5 +1,6 @@
 package com.vasily_sokolov.nucacola.service.impl;
 
+
 import com.vasily_sokolov.nucacola.dto.SaleDto;
 import com.vasily_sokolov.nucacola.entity.Product;
 import com.vasily_sokolov.nucacola.entity.Sale;
@@ -33,15 +34,27 @@ public class SaleServiceImpl implements SaleService {
     }
 
     @Override
-    @Transactional
-    public SaleDto postCreateNewSale(SaleDto saleDto) {
+    public List<SaleDto> getAllSales() {
+        return saleMapper.salesToSalesDto(saleRepository.findAll());
+    }
+
+
+    @Override
+    public List<SaleDto> getSalesByCustomerNameAndProductName(String customerName, String productName) {
+        return saleMapper.salesToSalesDto(
+                saleRepository.getSalesByCustomerNameAndProductName(
+                        customerName,
+                        productName));
+    }
+
+    @Override
+    public Sale postCreateNewSale(SaleDto saleDto) {
         Product product = productRepository.findById(saleDto.getProductId())
                 .orElse(null);
-        Sale sale = Sale.builder()
-                .customerName(saleDto.getCustomerName())
-                .product(product)
-                .build();
-        return saleMapper.toDto(saleRepository.save(sale));
+        if(product == null){
+            return null;
+        }
+        return saleRepository.save(saleMapper.toEntity(saleDto));
     }
 
     @Override
@@ -54,4 +67,8 @@ public class SaleServiceImpl implements SaleService {
     public void deleteSaleById(String saleId) {
         saleRepository.deleteById(UUID.fromString(saleId));
     }
+
+
+
+
 }

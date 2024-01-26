@@ -2,7 +2,6 @@ package com.vasily_sokolov.nucacola.controller.page;
 
 
 import com.vasily_sokolov.nucacola.dto.RawMaterialDto;
-import com.vasily_sokolov.nucacola.entity.RawMaterial;
 import com.vasily_sokolov.nucacola.service.interf.RawMaterialService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +15,7 @@ public class RawMaterialController {
 
     private final RawMaterialService rawMaterialService;
 
-    @GetMapping("/name/{name}")    //("/{не отображается  в запросе}")
+    @GetMapping("/name/{name}")
     public List<RawMaterialDto> getRawMaterialsByName(@PathVariable("name") String name) {
         return rawMaterialService.getRawMaterialsByName(name);
     }
