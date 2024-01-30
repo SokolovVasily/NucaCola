@@ -48,7 +48,7 @@ public class SaleController {
         return saleService.postCreateNewSale(saleDto);
     }
 
-    @PutMapping("/put") //? назв параметра_поле = value
+    @PutMapping("/put")
     public void updateSaleCustomerName(
             @RequestParam String saleId,
             @RequestParam String customerName

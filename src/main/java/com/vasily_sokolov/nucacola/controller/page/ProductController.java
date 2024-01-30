@@ -1,10 +1,12 @@
 package com.vasily_sokolov.nucacola.controller.page;
 
 import com.vasily_sokolov.nucacola.dto.ProductDto;
+import com.vasily_sokolov.nucacola.entity.Product;
 import com.vasily_sokolov.nucacola.service.interf.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 
@@ -15,8 +17,15 @@ public class ProductController {
 
     private final ProductService productService;
 
+    @GetMapping("/productId/{productId}")
+    public Product findById(@PathVariable("productId") String productId) {
+        return productService.findById(productId);
+    }
+    // http://localhost:8080/product/productId/8bc6ca0f-f8b8-4714-85b4-8b05e6cc4680
+
+
     @GetMapping("/name/{name}")    //("/{не отображается  в запросе}")
-    public List<ProductDto> getProductsByName(@PathVariable("name") String name) {
+    public List<ProductDto> getProductsByName( @PathVariable("name") String name) {
         return productService.getProductsByName(name);
     }
     // http://localhost:8080/product/name/Nuca-Cola
@@ -59,7 +68,7 @@ public class ProductController {
     @PutMapping("/put")
     public void updateProductPrice(
             @RequestParam String productId,
-            @RequestParam String productPrice
+            @RequestParam BigDecimal productPrice
     ) {
         productService.updateProductPrice(productId, productPrice);
     }

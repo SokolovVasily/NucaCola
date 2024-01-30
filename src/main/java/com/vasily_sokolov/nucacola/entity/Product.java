@@ -9,6 +9,7 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.UuidGenerator;
 import org.hibernate.type.SqlTypes;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -31,7 +32,7 @@ public class Product {
     private String productName;
 
     @Column(name = "product_price")
-    private double productPrice;
+    private BigDecimal productPrice;
 
     @Column(name = "product_characteristic")
     @Enumerated(EnumType.STRING)
@@ -56,13 +57,12 @@ public class Product {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
-        return productId == product.productId && Double.compare(productPrice, product.productPrice) == 0 &&
-                Objects.equals(productName, product.productName);
+        return Objects.equals(productId, product.productId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(productId, productName, productPrice);
+        return Objects.hash(productId);
     }
 
     @Override

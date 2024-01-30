@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
@@ -33,7 +34,7 @@ public interface ProductRepository extends JpaRepository<Product, UUID> {
 
     @Modifying
     @Query("update Product p set p.productPrice = :productPrice where p.productId = :uuid")
-    void updateProductPrice(UUID uuid, double productPrice);
+    void updateProductPrice(UUID uuid, BigDecimal productPrice);
 
 
 }
