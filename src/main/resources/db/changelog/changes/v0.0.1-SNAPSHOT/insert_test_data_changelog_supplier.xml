@@ -2,17 +2,14 @@
 <databaseChangeLog
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
-        http://www.liquibase.org/xml/ns/dbchangelog-ext
-        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+        ">
 
     <changeSet author="SokolovVasily" id="insert test data into supplier_1 table">
         <insert tableName="supplier">
             <column name="supplier_id" value="1"/>
             <column name="supplier_name" value="Mars"/>
-            <column name="raw_material_id" value="7d2000c1-8111-420c-a42a-e4eca5b50090"/>
         </insert>
     </changeSet>
 
@@ -20,7 +17,6 @@
         <insert tableName="supplier">
             <column name="supplier_id" value="2"/>
             <column name="supplier_name" value="Jupiter"/>
-            <column name="raw_material_id" value="c8d3fa37-02c8-4455-ae02-21835c436275"/>
         </insert>
     </changeSet>
 

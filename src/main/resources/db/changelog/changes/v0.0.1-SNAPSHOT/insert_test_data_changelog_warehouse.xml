@@ -2,18 +2,14 @@
 <databaseChangeLog
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
-        http://www.liquibase.org/xml/ns/dbchangelog-ext
-        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+        ">
 
     <changeSet author="SokolovVasily" id="insert test data into warehouse_1 table">
         <insert tableName="warehouse">
             <column name="warehouse_id" value="1"/>
             <column name="warehouse_type" value="RAW_MATERIAL_WAREHOUSE"/>
-            <column name="product_id" value="null"/>
-            <column name="raw_material_id" value="7d2000c1-8111-420c-a42a-e4eca5b50090"/>
         </insert>
     </changeSet>
 
@@ -21,8 +17,6 @@
         <insert tableName="warehouse">
             <column name="warehouse_id" value="2"/>
             <column name="warehouse_type" value="FINISHED_PRODUCT_WAREHOUSE"/>
-            <column name="product_id" value="96009103-dcfa-4c0f-977d-528863c5c44c"/>
-            <column name="raw_material_id" value="null"/>
         </insert>
     </changeSet>
 

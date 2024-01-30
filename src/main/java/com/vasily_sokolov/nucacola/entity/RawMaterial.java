@@ -2,11 +2,9 @@ package com.vasily_sokolov.nucacola.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.annotations.UuidGenerator;
 import org.hibernate.type.SqlTypes;
 
 import java.util.Objects;
@@ -15,12 +13,14 @@ import java.util.UUID;
 @Entity
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "raw_material")
 public class RawMaterial {
 
     @Id
+    @UuidGenerator
     @JdbcTypeCode(SqlTypes.VARCHAR)
     @Column(name = "raw_material_id")
     private UUID rawMaterialId;
@@ -29,12 +29,19 @@ public class RawMaterial {
     private String rawMaterialName;
 
     @ManyToOne
-    @JsonBackReference
-    @JoinColumn(name = "raw_material_warehouse_id",referencedColumnName = "warehouse_id")
+    @JsonBackReference("warehouseRawMaterialFk")
+    @JoinColumn(name = "raw_material_warehouse_id", referencedColumnName = "warehouse_id")
     private Warehouse rawMaterialWarehouse;
 
-    @OneToOne
-    @JoinColumn(name = "supplier_id",referencedColumnName = "supplier_id")
+    @ManyToOne
+    @JsonBackReference("productionRawMaterialFk")
+    @JoinColumn(name = "production_id", referencedColumnName = "production_id")
+    private Production production;
+
+
+    @ManyToOne
+    @JsonBackReference("supplierRawMaterialFk")
+    @JoinColumn(name = "supplier_id", referencedColumnName = "supplier_id")
     private Supplier supplier;
 
     @Override

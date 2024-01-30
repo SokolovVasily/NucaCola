@@ -1,29 +1,29 @@
 package com.vasily_sokolov.nucacola.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.vasily_sokolov.nucacola.entity.enums.ProductCapacityType;
 import com.vasily_sokolov.nucacola.entity.enums.ProductCharacteristic;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.annotations.UuidGenerator;
 import org.hibernate.type.SqlTypes;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 import java.util.UUID;
 
 @Entity
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "product")
 public class Product {
 
     @Id
+    @UuidGenerator
     @JdbcTypeCode(SqlTypes.VARCHAR)
     @Column(name = "product_id")
     private UUID productId;
@@ -32,7 +32,7 @@ public class Product {
     private String productName;
 
     @Column(name = "product_price")
-    private double productPrice;
+    private BigDecimal productPrice;
 
     @Column(name = "product_characteristic")
     @Enumerated(EnumType.STRING)
@@ -43,7 +43,12 @@ public class Product {
     private ProductCapacityType capacityType;
 
     @ManyToOne
-    @JsonBackReference
+    @JsonBackReference("productProductionFk")
+    @JoinColumn(name = "production_id", referencedColumnName = "production_id")
+    private Production production;
+
+    @ManyToOne
+    @JsonBackReference("productWarehouseFk")
     @JoinColumn(name = "warehouse_id", referencedColumnName = "warehouse_id")
     private Warehouse finishedProductWarehouse;
 
@@ -52,13 +57,12 @@ public class Product {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
-        return productId == product.productId && Double.compare(productPrice, product.productPrice) == 0 &&
-                Objects.equals(productName, product.productName);
+        return Objects.equals(productId, product.productId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(productId, productName, productPrice);
+        return Objects.hash(productId);
     }
 
     @Override

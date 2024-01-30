@@ -1,7 +1,9 @@
 package com.vasily_sokolov.nucacola.service.impl;
 
 import com.vasily_sokolov.nucacola.entity.Warehouse;
-import com.vasily_sokolov.nucacola.repository.ProductRepository;
+import com.vasily_sokolov.nucacola.exception.exceptions.ProductNotFoundException;
+import com.vasily_sokolov.nucacola.exception.exceptions.WarehouseNotFoundException;
+import com.vasily_sokolov.nucacola.exception.message.ErrorMessage;
 import com.vasily_sokolov.nucacola.repository.WarehouseRepository;
 import com.vasily_sokolov.nucacola.service.interf.WarehouseService;
 import lombok.RequiredArgsConstructor;
@@ -13,8 +15,17 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     private final WarehouseRepository warehouseRepository;
 
+    /**
+     * The method finds a Warehouse in the database by id
+     *
+     * @param warehouseId Unique Product Identifier
+     * @return If the Warehouse is found, it returns the Warehouse, otherwise it throws it away
+     * WarehouseNotFoundException error.
+     */
     @Override
     public Warehouse getWarehouseById(String warehouseId) {
-        return warehouseRepository.getWarehouseById(warehouseId);
+        return warehouseRepository.findById(Integer.valueOf(warehouseId)).orElseThrow(
+                () -> new WarehouseNotFoundException(ErrorMessage.WAREHOUSE_NOT_FOUND));
     }
 }
+ 

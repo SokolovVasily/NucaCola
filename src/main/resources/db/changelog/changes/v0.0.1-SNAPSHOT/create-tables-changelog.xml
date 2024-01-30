@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <databaseChangeLog
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
-        http://www.liquibase.org/xml/ns/dbchangelog-ext
-        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+       ">
 
     <changeSet author="SokolovVasily" id="create product table">
         <preConditions onFail="CONTINUE" onFailMessage="Table product already exists">
@@ -28,10 +26,13 @@
                 <constraints nullable="false"/>
             </column>
             <column name="warehouse_id" type="int">
-                <constraints nullable="false"/>
+                <constraints nullable="true"/>
             </column>
             <column name="product_price" type="decimal(8, 2)">
                 <constraints nullable="false"/>
+            </column>
+            <column name="production_id" type="int">
+                <constraints nullable="true"/>
             </column>
         </createTable>
     </changeSet>
@@ -47,12 +48,6 @@
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="warehouse_id_raw_material" type="int">
-                <constraints nullable="false"/>
-            </column>
-            <column name="product_id" type="varchar(36)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="raw_material_id" type="varchar(36)">
                 <constraints nullable="false"/>
             </column>
             <column name="warehouse_id_product" type="int">
@@ -78,10 +73,13 @@
                 <constraints nullable="false"/>
             </column>
             <column name="raw_material_warehouse_id" type="int">
-                <constraints nullable="false"/>
+                <constraints nullable="true"/>
             </column>
             <column name="supplier_id" type="int">
                 <constraints nullable="false"/>
+            </column>
+            <column name="production_id" type="int">
+                <constraints nullable="true"/>
             </column>
         </createTable>
     </changeSet>
@@ -93,8 +91,8 @@
             </not>
         </preConditions>
         <createTable tableName="sale">
-            <column name="sale_id" type="int">
-                <constraints primaryKey="true" nullable="false"/>
+            <column name="sale_id" type="varchar(36)">
+                <constraints primaryKey="true" nullable="false" />
             </column>
             <column name="product_id" type="varchar(36)">
                 <constraints nullable="false"/>
@@ -103,9 +101,6 @@
                 <constraints nullable="false"/>
             </column>
             <column name="customer_name" type="varchar(45)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="warehouse_id" type="int">
                 <constraints nullable="false"/>
             </column>
         </createTable>
@@ -122,10 +117,7 @@
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="supplier_name" type="varchar(45)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="raw_material_id" type="varchar(36)">
-                <constraints nullable="false"/>
+                <constraints nullable="true"/>
             </column>
         </createTable>
     </changeSet>
@@ -142,12 +134,6 @@
             </column>
             <column name="warehouse_type" type="varchar(45)">
                 <constraints nullable="false"/>
-            </column>
-            <column name="product_id" type="varchar(36)">
-                <constraints nullable="true"/>
-            </column>
-            <column name="raw_material_id" type="varchar(36)">
-                <constraints nullable="true"/>
             </column>
         </createTable>
     </changeSet>

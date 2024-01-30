@@ -2,11 +2,9 @@
 <databaseChangeLog
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
-        http://www.liquibase.org/xml/ns/dbchangelog-ext
-        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+        ">
 
     <changeSet author="SokolovVasily" id="insert test data into product_1 table">
         <insert tableName="product">
@@ -15,6 +13,7 @@
             <column name="product_characteristic" value="SUGARY"/>
             <column name="product_capacity_type" value="BIG"/>
             <column name="warehouse_id" value="2"/>
+            <column name="production_id" value="1"/>
             <column name="product_price" value="1.99"/>
         </insert>
     </changeSet>
@@ -26,6 +25,7 @@
             <column name="product_characteristic" value="SUGARY"/>
             <column name="product_capacity_type" value="MEDIUM"/>
             <column name="warehouse_id" value="2"/>
+            <column name="production_id" value="1"/>
             <column name="product_price" value="1.49"/>
         </insert>
     </changeSet>
@@ -37,6 +37,7 @@
             <column name="product_characteristic" value="SUGARY"/>
             <column name="product_capacity_type" value="SMALL"/>
             <column name="warehouse_id" value="2"/>
+            <column name="production_id" value="1"/>
             <column name="product_price" value="0.99"/>
         </insert>
     </changeSet>
@@ -48,6 +49,7 @@
             <column name="product_characteristic" value="NOT_SUGARY"/>
             <column name="product_capacity_type" value="MEDIUM"/>
             <column name="warehouse_id" value="2"/>
+            <column name="production_id" value="1"/>
             <column name="product_price" value="1.49"/>
         </insert>
     </changeSet>
@@ -59,6 +61,7 @@
             <column name="product_characteristic" value="NOT_SUGARY"/>
             <column name="product_capacity_type" value="BIG"/>
             <column name="warehouse_id" value="2"/>
+            <column name="production_id" value="1"/>
             <column name="product_price" value="1.99"/>
         </insert>
     </changeSet>
@@ -70,6 +73,7 @@
             <column name="product_characteristic" value="NOT_SUGARY"/>
             <column name="product_capacity_type" value="SMALL"/>
             <column name="warehouse_id" value="2"/>
+            <column name="production_id" value="1"/>
             <column name="product_price" value="0.99"/>
         </insert>
     </changeSet>
