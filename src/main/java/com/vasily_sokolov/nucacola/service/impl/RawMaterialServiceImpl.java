@@ -1,9 +1,9 @@
 package com.vasily_sokolov.nucacola.service.impl;
 
-import com.vasily_sokolov.nucacola.dto.ProductDto;
 import com.vasily_sokolov.nucacola.dto.RawMaterialDto;
 import com.vasily_sokolov.nucacola.entity.RawMaterial;
 import com.vasily_sokolov.nucacola.entity.Supplier;
+import com.vasily_sokolov.nucacola.exception.exceptions.ListException;
 import com.vasily_sokolov.nucacola.exception.exceptions.RawMaterialNotFoundException;
 import com.vasily_sokolov.nucacola.exception.exceptions.StringNotCorrectException;
 import com.vasily_sokolov.nucacola.exception.message.ErrorMessage;
@@ -31,6 +31,7 @@ public class RawMaterialServiceImpl implements RawMaterialService {
 
     /**
      * The method finds a rawMaterial in the database by id;
+     *
      * @param rawMaterialId Unique rawMaterial Identifier
      * @return If the rawMaterial is found, it returns the rawMaterial, otherwise it throws it away
      * RawMaterialNotFoundException error
@@ -42,24 +43,30 @@ public class RawMaterialServiceImpl implements RawMaterialService {
 
     /**
      * The method finds a RawMaterial in the database by name;
-     * In this method, for the name parameter, a check occurs in the
-     * {@link RawMaterialServiceImpl#checkString45Length(String)} method,
-     * when return FALSE a StringNotCorrectException error is thrown.
      *
      * @param name RawMaterial Identifier
      * @return If the rawMaterial is found, it returns the List<{@link RawMaterialDto}> or empty List
      */
     @Override
     public List<RawMaterialDto> getRawMaterialsByName(String name) {
-        if (!checkString45Length(name)) {
-            throw new StringNotCorrectException(ErrorMessage.STRING_WRONG_LENGTH);
+        List<RawMaterialDto> rawMaterialDtoList =
+                rawMaterialMapper.rawMaterialToRawMaterialDto(rawMaterialRepository.getRawMaterialsByName(name));
+        if (rawMaterialDtoList.isEmpty()) {
+            throw new ListException(ErrorMessage.RAW_MATERIAL_NOT_FOUND);
+        } else {
+            return rawMaterialDtoList;
         }
-        return rawMaterialMapper.rawMaterialToRawMaterialDto(rawMaterialRepository.getRawMaterialsByName(name));
     }
 
     @Override
     public List<RawMaterialDto> getAllRawMaterials() {
-        return rawMaterialMapper.rawMaterialToRawMaterialDto(rawMaterialRepository.findAll());
+        List<RawMaterialDto> rawMaterialDtoList =
+                rawMaterialMapper.rawMaterialToRawMaterialDto(rawMaterialRepository.findAll());
+        if (rawMaterialDtoList.isEmpty()) {
+            throw new ListException(ErrorMessage.RAW_MATERIAL_NOT_FOUND);
+        } else {
+            return rawMaterialDtoList;
+        }
     }
 
     @Override
@@ -76,9 +83,6 @@ public class RawMaterialServiceImpl implements RawMaterialService {
     @Override
     public void updateRawMaterialName(String rawMaterialId, String name) {
         findById(rawMaterialId);
-        if (!checkString45Length(name)) {
-            throw new StringNotCorrectException(ErrorMessage.STRING_WRONG_LENGTH);
-        }
         rawMaterialRepository.updateRawMaterialName(UUID.fromString(rawMaterialId), name);
     }
 
@@ -87,9 +91,4 @@ public class RawMaterialServiceImpl implements RawMaterialService {
         findById(rawMaterialId);
         rawMaterialRepository.deleteById(UUID.fromString(rawMaterialId));
     }
-
-    private boolean checkString45Length(String name) {
-        return name.length() > 1 && name.length() < 45;
-    }
-
 }

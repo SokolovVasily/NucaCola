@@ -24,5 +24,4 @@ public interface SaleRepository extends JpaRepository<Sale, UUID> {
     void updateSaleCustomerName(UUID saleId, String customerName);
 
 
-
 }

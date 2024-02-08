@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface SupplierRepository extends JpaRepository<Supplier,Integer> {
+public interface SupplierRepository extends JpaRepository<Supplier, Integer> {
     @Query("select s from Supplier s where s.supplierName = :name")
     Supplier getSupplierByName(String name);
 }

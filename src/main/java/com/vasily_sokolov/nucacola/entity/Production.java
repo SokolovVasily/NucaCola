@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
-
 import java.util.Objects;
 
 @Entity
@@ -28,20 +27,20 @@ public class Production {
     @Column(name = "status_production")
     private StatusProduction status;
 
-    @OneToMany(mappedBy = "production", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "production", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference("productionRawMaterialFk")
     private List<RawMaterial> rawMaterialList;
 
-    @OneToMany(mappedBy = "production", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "production", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference("productProductionFk")
     private List<Product> product;
 
     @OneToOne
-    @JoinColumn(name = "warehouse_id_product",referencedColumnName = "warehouse_id")
+    @JoinColumn(name = "warehouse_id_product", referencedColumnName = "warehouse_id")
     private Warehouse finishedProductWarehouse;
 
     @OneToOne
-    @JoinColumn(name = "warehouse_id_raw_material",referencedColumnName = "warehouse_id")
+    @JoinColumn(name = "warehouse_id_raw_material", referencedColumnName = "warehouse_id")
     private Warehouse rawMaterialWarehouse;
 
     @Override

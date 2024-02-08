@@ -1,15 +1,22 @@
-package com.vasily_sokolov.nucacola.controller.page;
+package com.vasily_sokolov.nucacola.controller.rest;
 
 import com.vasily_sokolov.nucacola.dto.ProductDto;
 import com.vasily_sokolov.nucacola.entity.Product;
 import com.vasily_sokolov.nucacola.service.interf.ProductService;
+import com.vasily_sokolov.nucacola.validation.interf.Str45LengthCheck;
+import com.vasily_sokolov.nucacola.validation.interf.UuidCheck;
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.List;
 
-
+@Validated
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/product")
@@ -18,14 +25,16 @@ public class ProductController {
     private final ProductService productService;
 
     @GetMapping("/productId/{productId}")
-    public Product findById(@PathVariable("productId") String productId) {
+    public Product findById(@UuidCheck @PathVariable("productId") String productId) { //оба метода валидации кастомн
         return productService.findById(productId);
     }
     // http://localhost:8080/product/productId/8bc6ca0f-f8b8-4714-85b4-8b05e6cc4680
 
 
-    @GetMapping("/name/{name}")    //("/{не отображается  в запросе}")
-    public List<ProductDto> getProductsByName( @PathVariable("name") String name) {
+    @GetMapping("/name/{name}")
+    public List<ProductDto> getProductsByName(
+            @Str45LengthCheck @PathVariable("name") String name
+    ) {
         return productService.getProductsByName(name);
     }
     // http://localhost:8080/product/name/Nuca-Cola
@@ -38,7 +47,7 @@ public class ProductController {
     // http://localhost:8080/product/all
 
     @GetMapping("/characteristic/{characteristic}")
-    public List<ProductDto> getProductByCharacteristic(@PathVariable("characteristic") String characteristic) {
+    public List<ProductDto> getProductByCharacteristic(@NotNull @PathVariable("characteristic") String characteristic) {
         return productService.getProductsByCharacteristic(characteristic);
     }
     // http://localhost:8080/product/characteristic/SUGARY
@@ -46,16 +55,16 @@ public class ProductController {
 
     @GetMapping("/nameAndCharacteristic/")
     public List<ProductDto> getProductsByNameAndCharacteristic(
-            @RequestParam String name,
-            @RequestParam String characteristic
+            @Str45LengthCheck @RequestParam String name,
+            @NotNull @RequestParam String characteristic
     ) {
         return productService.getProductsByNameAndCharacteristic(name, characteristic);
     }
 
     @GetMapping("/capacityTypeAndCharacteristic/")
     public List<ProductDto> getProductsByCapacityAndCharacteristic(
-            @RequestParam String capacity,
-            @RequestParam String characteristic
+            @NotNull @RequestParam String capacity,
+            @NotNull @RequestParam String characteristic
     ) {
         return productService.getProductsByCapacityAndCharacteristic(capacity, characteristic);
     }
@@ -67,14 +76,18 @@ public class ProductController {
 
     @PutMapping("/put")
     public void updateProductPrice(
-            @RequestParam String productId,
+            @UuidCheck @RequestParam String productId,
+            @Positive(message = "Price must be greater than 0 !")
+            @NotNull(message = "Product price shouldn`t be null !")
+            @DecimalMin(value = "0.01", message = "Price should be greater than 0 ")
+            @DecimalMax(value = "999999.99", message = "Price should be less than 1 000 000.00 !")
             @RequestParam BigDecimal productPrice
     ) {
         productService.updateProductPrice(productId, productPrice);
     }
 
     @DeleteMapping("/delete/{productId}")
-    public void deleteProductById(@PathVariable("productId") String productId) {
+    public void deleteProductById(@UuidCheck @PathVariable("productId") String productId) {
         productService.deleteProductById(productId);
     }
 }

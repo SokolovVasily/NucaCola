@@ -1,7 +1,6 @@
 package com.vasily_sokolov.nucacola.service.impl;
 
 import com.vasily_sokolov.nucacola.entity.Warehouse;
-import com.vasily_sokolov.nucacola.exception.exceptions.ProductNotFoundException;
 import com.vasily_sokolov.nucacola.exception.exceptions.WarehouseNotFoundException;
 import com.vasily_sokolov.nucacola.exception.message.ErrorMessage;
 import com.vasily_sokolov.nucacola.repository.WarehouseRepository;
@@ -23,8 +22,8 @@ public class WarehouseServiceImpl implements WarehouseService {
      * WarehouseNotFoundException error.
      */
     @Override
-    public Warehouse getWarehouseById(String warehouseId) {
-        return warehouseRepository.findById(Integer.valueOf(warehouseId)).orElseThrow(
+    public Warehouse getWarehouseById(Integer warehouseId) {
+        return warehouseRepository.findById(warehouseId).orElseThrow(
                 () -> new WarehouseNotFoundException(ErrorMessage.WAREHOUSE_NOT_FOUND));
     }
 }

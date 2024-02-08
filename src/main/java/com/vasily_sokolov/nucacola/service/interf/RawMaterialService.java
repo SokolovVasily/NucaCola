@@ -2,7 +2,6 @@ package com.vasily_sokolov.nucacola.service.interf;
 
 import com.vasily_sokolov.nucacola.dto.RawMaterialDto;
 
-
 import java.util.List;
 
 public interface RawMaterialService {
