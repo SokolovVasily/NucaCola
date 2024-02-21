@@ -14,6 +14,7 @@ import com.vasily_sokolov.nucacola.repository.ProductRepository;
 import com.vasily_sokolov.nucacola.service.interf.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
@@ -48,7 +49,9 @@ public class ProductServiceImpl implements ProductService {
      */
     @Override
     public List<ProductDto> getProductsByName(String name) {
-        List<ProductDto> productDtoList = productMapper.productsToProductsDto(productRepository.getProductsByName(name));
+        List<ProductDto> productDtoList =
+                productMapper.productsToProductsDto(
+                        productRepository.getProductsByName(name));
         if (productDtoList.isEmpty()) {
             throw new ListException(ErrorMessage.PRODUCT_NOT_FOUND);
         } else {
@@ -58,7 +61,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductDto> getAllProducts() {
-        List<ProductDto> productDtoList = productMapper.productsToProductsDto(productRepository.getAllProducts());
+        List<ProductDto> productDtoList =
+                productMapper.productsToProductsDto(
+                        productRepository.getAllProducts());
         if (productDtoList.isEmpty()) {
             throw new ListException(ErrorMessage.PRODUCT_NOT_FOUND);
         } else {
@@ -89,6 +94,7 @@ public class ProductServiceImpl implements ProductService {
             return productDtoList;
         }
     }
+
 
     /**
      * The method finds a product in the database by name and characteristic;
@@ -164,7 +170,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    @Transactional
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     public void updateProductPrice(String productId, BigDecimal productPrice) {
         findById(productId);
         productRepository.updateProductPrice(UUID.fromString(productId), productPrice);
@@ -176,7 +182,8 @@ public class ProductServiceImpl implements ProductService {
         productRepository.deleteById(UUID.fromString(productId));
     }
 
-    private boolean checkCharacteristic(String characteristicUpperCase) {
+
+  private boolean checkCharacteristic(String characteristicUpperCase) {
         return ProductCharacteristic.getProductCharacteristicList().contains(characteristicUpperCase);
     }
 
