@@ -1,15 +1,18 @@
-package com.vasily_sokolov.nucacola.controller.page;
+package com.vasily_sokolov.nucacola.controller.rest;
 
 
 import com.vasily_sokolov.nucacola.dto.SaleDto;
-
 import com.vasily_sokolov.nucacola.entity.Sale;
 import com.vasily_sokolov.nucacola.service.interf.SaleService;
+import com.vasily_sokolov.nucacola.validation.interf.Str45LengthCheck;
+import com.vasily_sokolov.nucacola.validation.interf.UuidCheck;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Validated
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/sale")
@@ -18,14 +21,14 @@ public class SaleController {
     private final SaleService saleService;
 
     @GetMapping("/saleId/{saleId}")
-    public SaleDto getSaleById(@PathVariable("saleId") String saleId) {
+    public SaleDto getSaleById(@UuidCheck @PathVariable("saleId") String saleId) {
         return saleService.getSaleById(saleId);
     }
     // http://localhost:8080/sale/saleId/1
     // http://localhost:8080/sale/saleId/2
 
     @GetMapping("/customerName/{customerName}")
-    public List<SaleDto> getSalesByCustomerName(@PathVariable("customerName") String customerName) {
+    public List<SaleDto> getSalesByCustomerName(@Str45LengthCheck @PathVariable("customerName") String customerName) {
         return saleService.getSalesByCustomerName(customerName);
     }
     // http://localhost:8080/sale/customerName/Supermarket 1
@@ -37,8 +40,8 @@ public class SaleController {
 
     @GetMapping("/CustomerNameAndProductName/")
     public List<SaleDto> getSalesByCustomerNameAndProductName(
-            @RequestParam String customerName,
-            @RequestParam String productName
+            @Str45LengthCheck @RequestParam String customerName,
+            @Str45LengthCheck @RequestParam String productName
     ) {
         return saleService.getSalesByCustomerNameAndProductName(customerName, productName);
     }
@@ -50,16 +53,14 @@ public class SaleController {
 
     @PutMapping("/put")
     public void updateSaleCustomerName(
-            @RequestParam String saleId,
-            @RequestParam String customerName
+            @UuidCheck @RequestParam String saleId,
+            @Str45LengthCheck @RequestParam String customerName
     ) {
         saleService.updateSaleCustomerName(saleId, customerName);
     }
 
     @DeleteMapping("/delete/{saleId}") //delete/b5310470-4943-4718-8899-2329a4dec393
-    public void deleteSaleById(@PathVariable("saleId") String saleId) {
+    public void deleteSaleById(@UuidCheck @PathVariable("saleId") String saleId) {
         saleService.deleteSaleById(saleId);
     }
-
-
 }

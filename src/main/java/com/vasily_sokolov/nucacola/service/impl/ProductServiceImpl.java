@@ -6,16 +6,16 @@ import com.vasily_sokolov.nucacola.entity.enums.ProductCapacityType;
 import com.vasily_sokolov.nucacola.entity.enums.ProductCharacteristic;
 import com.vasily_sokolov.nucacola.exception.exceptions.CapacityNotFoundException;
 import com.vasily_sokolov.nucacola.exception.exceptions.CharacteristicNotFoundException;
+import com.vasily_sokolov.nucacola.exception.exceptions.ListException;
 import com.vasily_sokolov.nucacola.exception.exceptions.ProductNotFoundException;
-import com.vasily_sokolov.nucacola.exception.exceptions.StringNotCorrectException;
 import com.vasily_sokolov.nucacola.exception.message.ErrorMessage;
 import com.vasily_sokolov.nucacola.mapper.ProductMapper;
 import com.vasily_sokolov.nucacola.repository.ProductRepository;
 import com.vasily_sokolov.nucacola.service.interf.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
-
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -43,24 +43,32 @@ public class ProductServiceImpl implements ProductService {
 
     /**
      * The method finds a product in the database by name;
-     * In this method, for the name parameter, a check occurs in the
-     * {@link ProductServiceImpl#checkString45Length(String)} method,
-     * when return FALSE a StringNotCorrectException error is thrown.
      *
      * @param name Product Identifier
      * @return If the products is found, it returns the List<{@link ProductDto}> or empty List.
      */
     @Override
     public List<ProductDto> getProductsByName(String name) {
-        if (!checkString45Length(name)) {
-            throw new StringNotCorrectException(ErrorMessage.STRING_WRONG_LENGTH);
+        List<ProductDto> productDtoList =
+                productMapper.productsToProductsDto(
+                        productRepository.getProductsByName(name));
+        if (productDtoList.isEmpty()) {
+            throw new ListException(ErrorMessage.PRODUCT_NOT_FOUND);
+        } else {
+            return productDtoList;
         }
-        return productMapper.productsToProductsDto(productRepository.getProductsByName(name));
     }
 
     @Override
     public List<ProductDto> getAllProducts() {
-        return productMapper.productsToProductsDto(productRepository.getAllProducts());
+        List<ProductDto> productDtoList =
+                productMapper.productsToProductsDto(
+                        productRepository.getAllProducts());
+        if (productDtoList.isEmpty()) {
+            throw new ListException(ErrorMessage.PRODUCT_NOT_FOUND);
+        } else {
+            return productDtoList;
+        }
     }
 
     /**
@@ -78,17 +86,20 @@ public class ProductServiceImpl implements ProductService {
         if (!checkCharacteristic(characteristicUpperCase)) {
             throw new CharacteristicNotFoundException(ErrorMessage.CHARACTERISTIC_NOT_FOUND);
         }
-        return productMapper.productsToProductsDto(
+        List<ProductDto> productDtoList = productMapper.productsToProductsDto(
                 productRepository.getProductsByCharacteristic((ProductCharacteristic.valueOf(characteristicUpperCase))));
+        if (productDtoList.isEmpty()) {
+            throw new ListException(ErrorMessage.PRODUCT_NOT_FOUND);
+        } else {
+            return productDtoList;
+        }
     }
+
 
     /**
      * The method finds a product in the database by name and characteristic;
-     * In this method, for the name parameter, a check occurs in the
-     * {@link ProductServiceImpl#checkString45Length(String)} method,
-     * when return FALSE a StringNotCorrectException error is thrown.
      * <p>
-     * Next, the characteristic parameter is converted to upper case and transmitted in
+     * The characteristic parameter is converted to upper case and transmitted in
      * {@link ProductServiceImpl#checkCharacteristic(String)} method,
      * if FALSE is returned, a CharacteristicNotFoundException error is thrown.
      *
@@ -98,19 +109,20 @@ public class ProductServiceImpl implements ProductService {
      */
     @Override
     public List<ProductDto> getProductsByNameAndCharacteristic(String name, String characteristic) {
-        if (!checkString45Length(name)) {
-            throw new StringNotCorrectException(ErrorMessage.STRING_WRONG_LENGTH);
-        }
         String characteristicUpperCase = characteristic.toUpperCase();
         if (!checkCharacteristic(characteristicUpperCase)) {
             throw new CharacteristicNotFoundException(ErrorMessage.CHARACTERISTIC_NOT_FOUND);
         }
-        return productMapper.productsToProductsDto(
+        List<ProductDto> productDtoList = productMapper.productsToProductsDto(
                 productRepository.getProductsByNameAndCharacteristic(
                         name,
                         ProductCharacteristic.valueOf(characteristicUpperCase)));
+        if (productDtoList.isEmpty()) {
+            throw new ListException(ErrorMessage.PRODUCT_NOT_FOUND);
+        } else {
+            return productDtoList;
+        }
     }
-
 
     /**
      * The method finds a product in the database by capacity and characteristic;
@@ -135,10 +147,15 @@ public class ProductServiceImpl implements ProductService {
         if (!checkCharacteristic(characteristicUpperCase)) {
             throw new CharacteristicNotFoundException(ErrorMessage.CHARACTERISTIC_NOT_FOUND);
         }
-        return productMapper.productsToProductsDto(
+        List<ProductDto> productDtoList = productMapper.productsToProductsDto(
                 productRepository.getProductsByCapacityAndCharacteristic(
                         ProductCapacityType.valueOf(capacityUpperCase),
                         ProductCharacteristic.valueOf(characteristicUpperCase)));
+        if (productDtoList.isEmpty()) {
+            throw new ListException(ErrorMessage.PRODUCT_NOT_FOUND);
+        } else {
+            return productDtoList;
+        }
     }
 
     @Override
@@ -153,7 +170,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    @Transactional
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     public void updateProductPrice(String productId, BigDecimal productPrice) {
         findById(productId);
         productRepository.updateProductPrice(UUID.fromString(productId), productPrice);
@@ -165,18 +182,8 @@ public class ProductServiceImpl implements ProductService {
         productRepository.deleteById(UUID.fromString(productId));
     }
 
-    /**
-     *This method checks the length of the Product name against the condition:
-     * greater than 1 and less than 45 characters, and returns boolean.
-     *
-     * @param name
-     * @return TRUE or FALSE
-     */
-    private boolean checkString45Length(String name) {
-        return name.length() > 1 && name.length() < 45;
-    }
 
-    private boolean checkCharacteristic(String characteristicUpperCase) {
+  private boolean checkCharacteristic(String characteristicUpperCase) {
         return ProductCharacteristic.getProductCharacteristicList().contains(characteristicUpperCase);
     }
 

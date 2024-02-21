@@ -4,5 +4,5 @@ import com.vasily_sokolov.nucacola.entity.Warehouse;
 
 public interface WarehouseService {
 
-    Warehouse getWarehouseById(String warehouseId);
+    Warehouse getWarehouseById(Integer warehouseId);
 }

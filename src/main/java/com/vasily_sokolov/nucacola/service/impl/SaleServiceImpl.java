@@ -1,12 +1,11 @@
 package com.vasily_sokolov.nucacola.service.impl;
 
 
-import com.vasily_sokolov.nucacola.dto.ProductDto;
 import com.vasily_sokolov.nucacola.dto.SaleDto;
 import com.vasily_sokolov.nucacola.entity.Product;
 import com.vasily_sokolov.nucacola.entity.Sale;
+import com.vasily_sokolov.nucacola.exception.exceptions.ListException;
 import com.vasily_sokolov.nucacola.exception.exceptions.SaleNotFoundException;
-import com.vasily_sokolov.nucacola.exception.exceptions.StringNotCorrectException;
 import com.vasily_sokolov.nucacola.exception.message.ErrorMessage;
 import com.vasily_sokolov.nucacola.mapper.SaleMapper;
 import com.vasily_sokolov.nucacola.repository.ProductRepository;
@@ -21,7 +20,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class  SaleServiceImpl implements SaleService {
+public class SaleServiceImpl implements SaleService {
 
     private final SaleRepository saleRepository;
     private final SaleMapper saleMapper;
@@ -43,73 +42,70 @@ public class  SaleServiceImpl implements SaleService {
 
     /**
      * The method finds a Sale in the database by customerName;
-     * In this method, for the name parameter, a check occurs in the
-     * {@link SaleServiceImpl#checkString45Length(String)} method,
-     * when return FALSE a StringNotCorrectException error is thrown.
+     *
      * @param customerName Sale Identifier
      * @return If the Sales is found, it returns the List<{@link SaleDto}> or empty List.
-     *StringNotCorrectException
+     * StringNotCorrectException
      **/
 
     @Override
     public List<SaleDto> getSalesByCustomerName(String customerName) {
-        if (!checkString45Length(customerName)) {
-            throw new StringNotCorrectException(ErrorMessage.STRING_WRONG_LENGTH);
+        List<SaleDto> saleDtoList = saleMapper.salesToSalesDto(saleRepository.getSalesByCustomerName(customerName));
+        if (saleDtoList.isEmpty()) {
+            throw new ListException(ErrorMessage.SALE_NOT_FOUND);
+        } else {
+            return saleDtoList;
         }
-        return saleMapper.salesToSalesDto(saleRepository.getSalesByCustomerName(customerName));
     }
 
     @Override
     public List<SaleDto> getAllSales() {
-        return saleMapper.salesToSalesDto(saleRepository.findAll());
+        List<SaleDto> saleDtoList = saleMapper.salesToSalesDto(saleRepository.findAll());
+        if (saleDtoList.isEmpty()) {
+            throw new ListException(ErrorMessage.SALE_NOT_FOUND);
+        } else {
+            return saleDtoList;
+        }
     }
-
 
     /**
      * The method finds a Sale in the database by customerName and productName;
-     * In this method, for the customerName parameter, a check occurs in the
-     * {@link SaleServiceImpl#checkString45Length(String)} method,
-     * when return FALSE a StringNotCorrectException error is thrown.
-     * ProductName parameter, a check occurs in the
-     * {@link SaleServiceImpl#checkString45Length(String)} method,
-     * when return FALSE a StringNotCorrectException error is thrown.
+     *
      * @param customerName Sale Identifier 1
-     * @param productName   Sale Identifier 2
+     * @param productName  Sale Identifier 2
      * @return If the products is found, it returns the List<{@link SaleDto}> or empty List.
-
      **/
     @Override
     public List<SaleDto> getSalesByCustomerNameAndProductName(String customerName, String productName) {
-        if (!checkString45Length(customerName)) {
-            throw new StringNotCorrectException(ErrorMessage.STRING_WRONG_LENGTH);
-        }
-        if (!checkString45Length(productName)) {
-            throw new StringNotCorrectException(ErrorMessage.STRING_WRONG_LENGTH);
-        }
-
-        return saleMapper.salesToSalesDto(
+        List<SaleDto> saleDtoList = saleMapper.salesToSalesDto(
                 saleRepository.getSalesByCustomerNameAndProductName(
                         customerName,
                         productName));
+        if (saleDtoList.isEmpty()) {
+            throw new ListException(ErrorMessage.SALE_NOT_FOUND);
+        } else {
+            return saleDtoList;
+        }
     }
 
     @Override
     public Sale postCreateNewSale(SaleDto saleDto) {
         Product product = productRepository.findById(saleDto.getProductId())
                 .orElse(null);
-        if(product == null){
+        if (product == null) {
             return null;
         }
         return saleRepository.save(saleMapper.toEntity(saleDto));
     }
 
+    /**
+     * @param saleId       Sale Identifier
+     * @param customerName Sale Identifier
+     */
     @Override
     @Transactional
     public void updateSaleCustomerName(String saleId, String customerName) {
         getSaleById(saleId);
-        if (!checkString45Length(customerName)) {
-            throw new StringNotCorrectException(ErrorMessage.STRING_WRONG_LENGTH);
-        }
         saleRepository.updateSaleCustomerName(UUID.fromString(saleId), customerName);
     }
 
@@ -119,7 +115,4 @@ public class  SaleServiceImpl implements SaleService {
         saleRepository.deleteById(UUID.fromString(saleId));
     }
 
-    private boolean checkString45Length(String name) {
-        return name.length() > 1 && name.length() < 45;
-    }
 }

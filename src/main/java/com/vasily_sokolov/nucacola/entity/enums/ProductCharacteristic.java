@@ -9,6 +9,7 @@ public enum ProductCharacteristic {
     NOT_SUGARY,
     SUGARY_EXTRA,
     NOT_SUGARY_EXTRA;
+
     public static List<String> getProductCharacteristicList() {
         return Arrays.stream(values())
                 .map(Enum::name)

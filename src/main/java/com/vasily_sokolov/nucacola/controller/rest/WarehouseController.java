@@ -1,7 +1,9 @@
-package com.vasily_sokolov.nucacola.controller.page;
+package com.vasily_sokolov.nucacola.controller.rest;
 
 import com.vasily_sokolov.nucacola.entity.Warehouse;
 import com.vasily_sokolov.nucacola.service.interf.WarehouseService;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,7 +18,7 @@ public class WarehouseController {
     private final WarehouseService warehouseService;
 
     @GetMapping("/warehouseId/{warehouseId}")
-    public Warehouse getWarehouseById(@PathVariable("warehouseId")String warehouseId){
+    public Warehouse getWarehouseById(@NotNull @Positive @PathVariable("warehouseId") Integer warehouseId) {
         return warehouseService.getWarehouseById(warehouseId);
     }
     // http://localhost:8080/warehouse/warehouseId/1

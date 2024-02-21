@@ -25,7 +25,7 @@ public class Supplier {
     @Column(name = "supplier_name")
     private String supplierName;
 
-    @OneToMany(mappedBy = "supplier" , cascade = CascadeType.ALL , fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "supplier", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference("supplierRawMaterialFk")
     private List<RawMaterial> rawMaterial;
 

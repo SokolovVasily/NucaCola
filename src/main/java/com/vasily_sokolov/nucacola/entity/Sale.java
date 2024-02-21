@@ -1,7 +1,6 @@
 package com.vasily_sokolov.nucacola.entity;
 
 
-
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;

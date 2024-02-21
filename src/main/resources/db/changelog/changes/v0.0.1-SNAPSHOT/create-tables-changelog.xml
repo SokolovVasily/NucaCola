@@ -92,7 +92,7 @@
         </preConditions>
         <createTable tableName="sale">
             <column name="sale_id" type="varchar(36)">
-                <constraints primaryKey="true" nullable="false" />
+                <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="product_id" type="varchar(36)">
                 <constraints nullable="false"/>
