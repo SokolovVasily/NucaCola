@@ -1,6 +1,8 @@
 package com.vasily_sokolov.nucacola.entity;
 
 
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
@@ -11,6 +13,7 @@ import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
 
+@Tag(name = "Sale", description = "Entity sale")
 @Entity
 @Getter
 @Setter
@@ -20,18 +23,22 @@ import java.util.UUID;
 @Table(name = "sale")
 public class Sale {
 
+    @Schema(maxLength = 36, description = "Primary key of sale")
     @Id
     @UuidGenerator
     @JdbcTypeCode(SqlTypes.VARCHAR)
     @Column(name = "sale_id")
     private UUID saleId;
 
+    @Schema(description = "Date of sale")
     @Column(name = "sale_date")
     private Date saleDate;
 
+    @Schema(maxLength = 45, description = "Name of customer")
     @Column(name = "customer_name")
     private String customerName;
 
+    @Schema(description = "Product of sale")
     @OneToOne
     @JoinColumn(name = "product_id", referencedColumnName = "product_id")
     private Product product;

@@ -13,6 +13,7 @@ import com.vasily_sokolov.nucacola.repository.SaleRepository;
 import com.vasily_sokolov.nucacola.service.interf.SaleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -34,6 +35,7 @@ public class SaleServiceImpl implements SaleService {
      * @return If the sale is found, it returns the sale, otherwise it throws it away
      * SaleNotFoundException error.
      */
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     @Override
     public SaleDto getSaleById(String saleId) {
         return saleMapper.toDto(saleRepository.findById(UUID.fromString(saleId)).orElseThrow(
@@ -47,7 +49,7 @@ public class SaleServiceImpl implements SaleService {
      * @return If the Sales is found, it returns the List<{@link SaleDto}> or empty List.
      * StringNotCorrectException
      **/
-
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     @Override
     public List<SaleDto> getSalesByCustomerName(String customerName) {
         List<SaleDto> saleDtoList = saleMapper.salesToSalesDto(saleRepository.getSalesByCustomerName(customerName));
@@ -58,6 +60,7 @@ public class SaleServiceImpl implements SaleService {
         }
     }
 
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     @Override
     public List<SaleDto> getAllSales() {
         List<SaleDto> saleDtoList = saleMapper.salesToSalesDto(saleRepository.findAll());
@@ -75,6 +78,7 @@ public class SaleServiceImpl implements SaleService {
      * @param productName  Sale Identifier 2
      * @return If the products is found, it returns the List<{@link SaleDto}> or empty List.
      **/
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     @Override
     public List<SaleDto> getSalesByCustomerNameAndProductName(String customerName, String productName) {
         List<SaleDto> saleDtoList = saleMapper.salesToSalesDto(
@@ -88,6 +92,11 @@ public class SaleServiceImpl implements SaleService {
         }
     }
 
+    /**
+     * @param saleDto
+     * @return
+     */
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     @Override
     public Sale postCreateNewSale(SaleDto saleDto) {
         Product product = productRepository.findById(saleDto.getProductId())
@@ -98,17 +107,14 @@ public class SaleServiceImpl implements SaleService {
         return saleRepository.save(saleMapper.toEntity(saleDto));
     }
 
-    /**
-     * @param saleId       Sale Identifier
-     * @param customerName Sale Identifier
-     */
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
     @Override
-    @Transactional
     public void updateSaleCustomerName(String saleId, String customerName) {
         getSaleById(saleId);
         saleRepository.updateSaleCustomerName(UUID.fromString(saleId), customerName);
     }
 
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
     @Override
     public void deleteSaleById(String saleId) {
         getSaleById(saleId);
