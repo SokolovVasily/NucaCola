@@ -35,6 +35,7 @@ public class ProductServiceImpl implements ProductService {
      * @return If the product is found, it returns the product, otherwise it throws it away
      * ProductNotFoundException error.
      */
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     @Override
     public Product findById(String productId) {
         return productRepository.findById(UUID.fromString(productId)).orElseThrow(
@@ -47,6 +48,7 @@ public class ProductServiceImpl implements ProductService {
      * @param name Product Identifier
      * @return If the products is found, it returns the List<{@link ProductDto}> or empty List.
      */
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     @Override
     public List<ProductDto> getProductsByName(String name) {
         List<ProductDto> productDtoList =
@@ -59,6 +61,7 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     @Override
     public List<ProductDto> getAllProducts() {
         List<ProductDto> productDtoList =
@@ -80,6 +83,7 @@ public class ProductServiceImpl implements ProductService {
      * @param characteristic Product Identifier
      * @return If the products is found, it returns the List<{@link ProductDto}> or empty List.
      */
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     @Override
     public List<ProductDto> getProductsByCharacteristic(String characteristic) {
         String characteristicUpperCase = characteristic.toUpperCase();
@@ -107,6 +111,7 @@ public class ProductServiceImpl implements ProductService {
      * @param characteristic Product Identifier;
      * @return If the products is found, it returns the List<{@link ProductDto}> or empty List.
      */
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     @Override
     public List<ProductDto> getProductsByNameAndCharacteristic(String name, String characteristic) {
         String characteristicUpperCase = characteristic.toUpperCase();
@@ -137,6 +142,7 @@ public class ProductServiceImpl implements ProductService {
      * @param characteristic Product Identifier;
      * @return If the products is found, it returns the List<{@link ProductDto}> or empty List.
      */
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     @Override
     public List<ProductDto> getProductsByCapacityAndCharacteristic(String capacityType, String characteristic) {
         String capacityUpperCase = capacityType.toUpperCase();
@@ -158,6 +164,13 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
+    /**
+     * The method create a product in the database ;
+     *
+     * @param productDto
+     * @return If the products is creat, it returns the List<{@link ProductDto}> or empty List.
+     */
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     @Override
     public ProductDto postCreateProduct(ProductDto productDto) {
         Product product = Product.builder()
@@ -170,12 +183,13 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    @Transactional(isolation = Isolation.READ_COMMITTED)
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
     public void updateProductPrice(String productId, BigDecimal productPrice) {
         findById(productId);
         productRepository.updateProductPrice(UUID.fromString(productId), productPrice);
     }
 
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
     @Override
     public void deleteProductById(String productId) {
         findById(productId);
@@ -183,7 +197,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
 
-  private boolean checkCharacteristic(String characteristicUpperCase) {
+    private boolean checkCharacteristic(String characteristicUpperCase) {
         return ProductCharacteristic.getProductCharacteristicList().contains(characteristicUpperCase);
     }
 

@@ -82,6 +82,7 @@ public class ResponseExceptionHandler {
         );
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDto);
     }
+
     @ExceptionHandler(value = Exception.class)
     public ResponseEntity<ErrorDto> exceptionHandle(Exception exception) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

@@ -12,6 +12,7 @@ import com.vasily_sokolov.nucacola.repository.SupplierRepository;
 import com.vasily_sokolov.nucacola.service.interf.RawMaterialService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -35,6 +36,7 @@ public class RawMaterialServiceImpl implements RawMaterialService {
      * @return If the rawMaterial is found, it returns the rawMaterial, otherwise it throws it away
      * RawMaterialNotFoundException error
      */
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     public RawMaterial findById(String rawMaterialId) {
         return rawMaterialRepository.findById(UUID.fromString(rawMaterialId)).orElseThrow(
                 () -> new RawMaterialNotFoundException(ErrorMessage.RAW_MATERIAL_NOT_FOUND));
@@ -46,6 +48,7 @@ public class RawMaterialServiceImpl implements RawMaterialService {
      * @param name RawMaterial Identifier
      * @return If the rawMaterial is found, it returns the List<{@link RawMaterialDto}> or empty List
      */
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     @Override
     public List<RawMaterialDto> getRawMaterialsByName(String name) {
         List<RawMaterialDto> rawMaterialDtoList =
@@ -57,6 +60,7 @@ public class RawMaterialServiceImpl implements RawMaterialService {
         }
     }
 
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     @Override
     public List<RawMaterialDto> getAllRawMaterials() {
         List<RawMaterialDto> rawMaterialDtoList =
@@ -68,6 +72,11 @@ public class RawMaterialServiceImpl implements RawMaterialService {
         }
     }
 
+    /**
+     * @param rawMaterialDto
+     * @return
+     */
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     @Override
     public RawMaterialDto postCreateRawMaterial(RawMaterialDto rawMaterialDto) {
         Supplier supplier = supplierRepository.getSupplierByName(rawMaterialDto.getSupplierName());
@@ -78,13 +87,14 @@ public class RawMaterialServiceImpl implements RawMaterialService {
         return rawMaterialMapper.toDto(rawMaterialRepository.save(rawMaterial));
     }
 
-    @Transactional
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
     @Override
     public void updateRawMaterialName(String rawMaterialId, String name) {
         findById(rawMaterialId);
         rawMaterialRepository.updateRawMaterialName(UUID.fromString(rawMaterialId), name);
     }
 
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
     @Override
     public void deleteRawMaterialById(String rawMaterialId) {
         findById(rawMaterialId);

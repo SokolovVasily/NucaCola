@@ -10,3 +10,5 @@ spring:
   liquibase:
     change-log: classpath:/db/changelog/changelog-master.xml
 
+  #http://localhost:8080/swagger-ui/index.html
+

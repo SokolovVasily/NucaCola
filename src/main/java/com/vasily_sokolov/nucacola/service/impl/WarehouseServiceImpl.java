@@ -7,6 +7,8 @@ import com.vasily_sokolov.nucacola.repository.WarehouseRepository;
 import com.vasily_sokolov.nucacola.service.interf.WarehouseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -21,6 +23,7 @@ public class WarehouseServiceImpl implements WarehouseService {
      * @return If the Warehouse is found, it returns the Warehouse, otherwise it throws it away
      * WarehouseNotFoundException error.
      */
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     @Override
     public Warehouse getWarehouseById(Integer warehouseId) {
         return warehouseRepository.findById(warehouseId).orElseThrow(
