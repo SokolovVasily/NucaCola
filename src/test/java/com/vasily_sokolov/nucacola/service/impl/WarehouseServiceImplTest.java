@@ -21,11 +21,9 @@ class WarehouseServiceImplTest {
     @Mock
     private WarehouseRepository warehouseRepository;
 
-
-    private final String warehouseId = "1";
-
     @Test
     void getWarehouseByIdPositiveTest() {
+        String warehouseId = "1";
         Mockito.when(warehouseRepository.findById(Integer.valueOf(warehouseId)))
                 .thenReturn(Optional.of(new Warehouse()));
         Assertions.assertEquals((new Warehouse()), warehouseService.getWarehouseById(Integer.valueOf(warehouseId)));

@@ -35,6 +35,4 @@ public interface ProductRepository extends JpaRepository<Product, UUID> {
     @Modifying
     @Query("update Product p set p.productPrice = :productPrice where p.productId = :uuid")
     void updateProductPrice(UUID uuid, BigDecimal productPrice);
-
-
 }

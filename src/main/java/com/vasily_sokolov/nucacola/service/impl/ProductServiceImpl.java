@@ -99,7 +99,6 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
-
     /**
      * The method finds a product in the database by name and characteristic;
      * <p>
@@ -167,7 +166,7 @@ public class ProductServiceImpl implements ProductService {
     /**
      * The method create a product in the database ;
      *
-     * @param productDto
+     * @param productDto Product Identifier;
      * @return If the products is creat, it returns the List<{@link ProductDto}> or empty List.
      */
     @Transactional(isolation = Isolation.READ_COMMITTED)
@@ -195,7 +194,6 @@ public class ProductServiceImpl implements ProductService {
         findById(productId);
         productRepository.deleteById(UUID.fromString(productId));
     }
-
 
     private boolean checkCharacteristic(String characteristicUpperCase) {
         return ProductCharacteristic.getProductCharacteristicList().contains(characteristicUpperCase);

@@ -15,7 +15,7 @@ public class StringAnnotationChecker implements ConstraintValidator<Str45LengthC
         if (s == null) {
             return false;
         }
-        return s.length() < 45;
+        return s.length() < 45 && s.length() > 2;
         //  return Optional.ofNullable(s)
         //.filter(el->!el.isBlank()) //возращает фолс емли елем пустой
         //     .map(el -> el.length() > 45)

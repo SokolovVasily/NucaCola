@@ -42,8 +42,7 @@ class RawMaterialServiceImplTest {
         rawMaterialDtoList = List.of(new RawMaterialDto());
     }
 
-    //1.---------------------------------
-    // findRawMaterialById()---------------------------------------------
+    //---------------------------------findRawMaterialById()------------------------------------------------------------
     @Test
     void findByIdPositiveTest() {
         Mockito.when(rawMaterialRepository.findById(UUID.fromString(uuid)))
@@ -57,7 +56,7 @@ class RawMaterialServiceImplTest {
         Assertions.assertThrows(RawMaterialNotFoundException.class, () -> rawMaterialService.findById(uuid));
     }
 
-    //2.------------------------------------------getRawMaterialsByName()---------------------------------------------
+    //--------------------------------------------getRawMaterialsByName()-----------------------------------------------
     @Test
     void getRawMaterialByNamePositiveTest() {
         String name = "s";
@@ -77,7 +76,7 @@ class RawMaterialServiceImplTest {
 
     }
 
-    //3.------------------------------------------getAllRawMaterials()---------------------------------------------
+    //------------------------------------------getAllRawMaterials()----------------------------------------------------
     @Test
     void getAllRawMaterialsPositiveTest() {
         Mockito.when(rawMaterialRepository.findAll())
@@ -93,5 +92,4 @@ class RawMaterialServiceImplTest {
     void getAllRawMaterialsListExceptionTest() {
         Assertions.assertThrows(ListException.class, () -> rawMaterialService.getAllRawMaterials().size());
     }
-
 }

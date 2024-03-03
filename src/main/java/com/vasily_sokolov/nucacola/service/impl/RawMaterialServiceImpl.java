@@ -5,6 +5,7 @@ import com.vasily_sokolov.nucacola.entity.RawMaterial;
 import com.vasily_sokolov.nucacola.entity.Supplier;
 import com.vasily_sokolov.nucacola.exception.exceptions.ListException;
 import com.vasily_sokolov.nucacola.exception.exceptions.RawMaterialNotFoundException;
+import com.vasily_sokolov.nucacola.exception.exceptions.SupplierNotFoundException;
 import com.vasily_sokolov.nucacola.exception.message.ErrorMessage;
 import com.vasily_sokolov.nucacola.mapper.RawMaterialMapper;
 import com.vasily_sokolov.nucacola.repository.RawMaterialRepository;
@@ -80,6 +81,9 @@ public class RawMaterialServiceImpl implements RawMaterialService {
     @Override
     public RawMaterialDto postCreateRawMaterial(RawMaterialDto rawMaterialDto) {
         Supplier supplier = supplierRepository.getSupplierByName(rawMaterialDto.getSupplierName());
+        if(supplier == null){
+            throw new SupplierNotFoundException(ErrorMessage.SUPPLIER_NOT_FOUND);
+        }
         RawMaterial rawMaterial = RawMaterial.builder()
                 .rawMaterialName(rawMaterialDto.getRawMaterialName())
                 .supplier(supplier)

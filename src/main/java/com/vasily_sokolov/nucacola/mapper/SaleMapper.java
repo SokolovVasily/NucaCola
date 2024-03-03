@@ -22,5 +22,4 @@ public interface SaleMapper {
     @Mapping(target = "product.productName", source = "productName")
     @Mapping(target = "saleDate", expression = "java(new Date(System.currentTimeMillis()))")
     Sale toEntity(SaleDto sale);
-
 }

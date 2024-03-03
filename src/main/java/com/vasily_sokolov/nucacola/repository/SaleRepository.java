@@ -22,6 +22,4 @@ public interface SaleRepository extends JpaRepository<Sale, UUID> {
     @Modifying
     @Query("update Sale s set s.customerName = :customerName where s.saleId = :saleId")
     void updateSaleCustomerName(UUID saleId, String customerName);
-
-
 }
