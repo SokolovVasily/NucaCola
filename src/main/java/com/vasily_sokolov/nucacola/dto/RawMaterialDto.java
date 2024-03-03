@@ -28,5 +28,4 @@ public class RawMaterialDto {
     @NotNull(message = "Supplier name shouldn`t be null !")
     @Size(min = 2, max = 44)
     private String supplierName;
-
 }

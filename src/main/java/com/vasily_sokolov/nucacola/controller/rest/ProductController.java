@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;
@@ -115,7 +116,6 @@ public class ProductController {
     // http://localhost:8080/product/characteristic/SUGARY
     // http://localhost:8080/product/characteristic/NOT_SUGARY
 
-
     @Operation(summary = "Finds the products",
             description = "Finds a product by name and characteristic",
             responses = {
@@ -141,7 +141,6 @@ public class ProductController {
     ) {
         return productService.getProductsByNameAndCharacteristic(name, characteristic);
     }
-
 
     @Operation(summary = "Finds the products",
             description = "Finds a product by capacity and characteristic",
@@ -169,7 +168,6 @@ public class ProductController {
         return productService.getProductsByCapacityAndCharacteristic(capacity, characteristic);
     }
 
-
     @Operation(summary = "Saves the productDto",
             description = "Stores ProductDto and returns ProductDto",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
@@ -185,13 +183,13 @@ public class ProductController {
                             description = "All its great",
                             content = {@Content(schema = @Schema(implementation = ProductDto.class),
                                     mediaType = "application/json")}),
-                    @ApiResponse(responseCode = "404",
+                    @ApiResponse(responseCode = "500",
                             description = "return Error Message",
                             content = {@Content(schema = @Schema(implementation = ErrorDto.class),
                                     mediaType = "application/json")})
             })
     @PostMapping("/create")
-    public ProductDto postCreateProduct(@RequestBody ProductDto productDto) {
+    public ProductDto postCreateProduct(@Valid @RequestBody ProductDto productDto) {
         return productService.postCreateProduct(productDto);
     }
 
@@ -207,6 +205,7 @@ public class ProductController {
                             content = {@Content(schema = @Schema(implementation = ErrorDto.class),
                                     mediaType = "application/json")})
             })
+
     @PutMapping("/put")
     public void updateProductPrice(
             @Schema(description = "Id of product",

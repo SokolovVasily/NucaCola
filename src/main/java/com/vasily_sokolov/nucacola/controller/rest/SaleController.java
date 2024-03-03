@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -129,7 +130,7 @@ public class SaleController {
                                     mediaType = "application/json")})
             })
     @PostMapping("/create")
-    public Sale postCreateNewSale(@RequestBody SaleDto saleDto) {
+    public Sale postCreateNewSale( @RequestBody @Valid SaleDto saleDto) {
         return saleService.postCreateNewSale(saleDto);
     }
 

@@ -3,9 +3,15 @@ spring:
     banner-mode: off
 
   datasource:
-    url: jdbc:mysql://localhost:3306/nucacolatest
+    url: jdbc:mysql://localhost:3306/nucacola
     username: root
     password: Telran2023
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+
 
   liquibase:
     change-log: classpath:/db/changelog/changelog-master.xml

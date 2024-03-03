@@ -18,5 +18,4 @@ public interface RawMaterialRepository extends JpaRepository<RawMaterial, UUID> 
     @Modifying
     @Query("update RawMaterial r set r.rawMaterialName = :name where r.rawMaterialId = :uuid")
     void updateRawMaterialName(UUID uuid, String name);
-
 }

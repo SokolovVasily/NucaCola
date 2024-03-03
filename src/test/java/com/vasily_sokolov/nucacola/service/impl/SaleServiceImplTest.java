@@ -1,13 +1,7 @@
 package com.vasily_sokolov.nucacola.service.impl;
 
-import com.vasily_sokolov.nucacola.dto.ProductDto;
 import com.vasily_sokolov.nucacola.dto.SaleDto;
-import com.vasily_sokolov.nucacola.entity.Product;
 import com.vasily_sokolov.nucacola.entity.Sale;
-import com.vasily_sokolov.nucacola.entity.enums.ProductCapacityType;
-import com.vasily_sokolov.nucacola.entity.enums.ProductCharacteristic;
-import com.vasily_sokolov.nucacola.exception.exceptions.CapacityNotFoundException;
-import com.vasily_sokolov.nucacola.exception.exceptions.CharacteristicNotFoundException;
 import com.vasily_sokolov.nucacola.exception.exceptions.ListException;
 import com.vasily_sokolov.nucacola.exception.exceptions.SaleNotFoundException;
 import com.vasily_sokolov.nucacola.mapper.SaleMapper;
@@ -55,7 +49,7 @@ class SaleServiceImplTest {
         saleDtoList = List.of(new SaleDto());
     }
 
-    //1.------------------------------------------getSaleById()---------------------------------------------
+    //------------------------------------------getSaleById()-----------------------------------------------------------
 
     @Test
     void getSaleByIdPositiveTest() {
@@ -70,7 +64,7 @@ class SaleServiceImplTest {
         Assertions.assertThrows(SaleNotFoundException.class, () -> saleService.getSaleById(uuid));
     }
 
-    //2.------------------------------------------getSalesByCustomerName()---------------------------------------------
+    //------------------------------------------getSalesByCustomerName()------------------------------------------------
     @Test
     void getSalesByCustomerNamePositiveTest() {
         String customerName = "s";
@@ -90,7 +84,7 @@ class SaleServiceImplTest {
 
     }
 
-    //3.------------------------------------------getAllSales()---------------------------------------------
+    //------------------------------------------getAllSales()-----------------------------------------------------------
     @Test
     void getAllProductsPositiveTest() {
         Mockito.when(saleRepository.findAll())
@@ -107,7 +101,7 @@ class SaleServiceImplTest {
         Assertions.assertThrows(ListException.class, () -> saleService.getAllSales().size());
     }
 
-    //4.------------------------------------------getSalesByCustomerNameAndProductName()---------------------------------------------
+    //------------------------------------------getSalesByCustomerNameAndProductName()----------------------------------
     @Test
     void getSalesByCustomerNameAndProductNamePositiveTest() {
         String customerName = "s";
@@ -117,17 +111,18 @@ class SaleServiceImplTest {
         Mockito.when(saleMapper.salesToSalesDto(saleList)).thenReturn(saleDtoList);
         Assertions.assertEquals(1, saleService.getSalesByCustomerNameAndProductName(
                 customerName, productName).size());
-        Mockito.verify(saleRepository).getSalesByCustomerNameAndProductName(customerName,productName);
+        Mockito.verify(saleRepository).getSalesByCustomerNameAndProductName(customerName, productName);
         Mockito.verify(saleMapper).salesToSalesDto(saleList);
     }
+
     @Test
     void getSalesByCustomerNameAndProductNameListExceptionTest() {
         String customerName = "Supermarket 1";
         String productName = "Nuca-Cola";
 
         when(saleRepository.getSalesByCustomerNameAndProductName(
-               (customerName),
-               (productName)))
+                (customerName),
+                (productName)))
                 .thenReturn(saleListEmpty);
         when(saleMapper.salesToSalesDto(saleListEmpty)).thenReturn(saleDtoListEmpty);
 
@@ -139,15 +134,4 @@ class SaleServiceImplTest {
                 (productName));
         Mockito.verify(saleMapper).salesToSalesDto(saleListEmpty);
     }
-
-
-
-
-    //5.------------------------------------------()------------
-
-
-
-
-
-
 }

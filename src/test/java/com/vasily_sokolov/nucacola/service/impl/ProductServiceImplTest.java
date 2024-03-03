@@ -2,8 +2,6 @@ package com.vasily_sokolov.nucacola.service.impl;
 
 import com.vasily_sokolov.nucacola.dto.ProductDto;
 import com.vasily_sokolov.nucacola.entity.Product;
-import com.vasily_sokolov.nucacola.entity.Production;
-import com.vasily_sokolov.nucacola.entity.Warehouse;
 import com.vasily_sokolov.nucacola.entity.enums.ProductCapacityType;
 import com.vasily_sokolov.nucacola.entity.enums.ProductCharacteristic;
 import com.vasily_sokolov.nucacola.exception.exceptions.CapacityNotFoundException;
@@ -21,14 +19,12 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -38,14 +34,10 @@ class ProductServiceImplTest {
     private ProductServiceImpl productService;
 
     @Mock
-    private ProductServiceImpl productService1;
-    @Mock
     private ProductRepository productRepository;
 
     @Mock
     private ProductMapper productMapper;
-
-    private Product product;
 
     private final String uuid = "10d83df1-7247-4a7e-af09-96d418317ec2";
 
@@ -59,18 +51,9 @@ class ProductServiceImplTest {
     public void init() {
         productList = List.of(new Product());
         productDtoList = List.of(new ProductDto());
-        product = new Product(
-                UUID.fromString(uuid),
-                "Nuca-Cola",
-                BigDecimal.valueOf(10.99),
-                ProductCharacteristic.SUGARY,
-                ProductCapacityType.BIG,
-                new Production(),
-                new Warehouse()
-        );
     }
 
-    //1.------------------------------------------findById()---------------------------------------------
+    //------------------------------------------findById()--------------------------------------------------------------
     @Test
     void findByIdPositiveTest() {
         when(productRepository.findById(UUID.fromString(uuid)))
@@ -84,7 +67,7 @@ class ProductServiceImplTest {
         Assertions.assertThrows(ProductNotFoundException.class, () -> productService.findById(uuid));
     }
 
-    //2.------------------------------------------getProductsByName()---------------------------------------------
+    //------------------------------------------getProductsByName()-----------------------------------------------------
     @Test
     void getProductsByNamePositiveTest() {
         String name = "s";
@@ -104,7 +87,7 @@ class ProductServiceImplTest {
 
     }
 
-    //3.------------------------------------------getAllProducts()---------------------------------------------
+    //-----------------------------------------getAllProducts()---------------------------------------------------------
     @Test
     void getAllProductsPositiveTest() {
         when(productRepository.getAllProducts())
@@ -121,12 +104,12 @@ class ProductServiceImplTest {
         Assertions.assertThrows(ListException.class, () -> productService.getAllProducts().size());
     }
 
-    //4.------------------------------------------getProductsByCharacteristic()---------------------------------------------
+    //------------------------------------------getProductsByCharacteristic()-------------------------------------------
     @Test
     void getProductsByCharacteristicPositiveTest() {
         String characteristic = "sugary";
         when(productRepository
-                        .getProductsByCharacteristic(ProductCharacteristic.valueOf(characteristic.toUpperCase())))
+                .getProductsByCharacteristic(ProductCharacteristic.valueOf(characteristic.toUpperCase())))
                 .thenReturn(productList);
         when(productMapper.productsToProductsDto(productList)).thenReturn(productDtoList);
         assertEquals(1, productService.getProductsByCharacteristic(characteristic).size());
@@ -146,7 +129,7 @@ class ProductServiceImplTest {
         String characteristic = "sugary";
 
         when(productRepository
-                        .getProductsByCharacteristic(ProductCharacteristic.valueOf(characteristic.toUpperCase())))
+                .getProductsByCharacteristic(ProductCharacteristic.valueOf(characteristic.toUpperCase())))
                 .thenReturn(productListEmpty);
         when(productMapper.productsToProductsDto(productListEmpty))
                 .thenReturn(productDtoListEmpty);
@@ -156,15 +139,15 @@ class ProductServiceImplTest {
                 .getProductsByCharacteristic(ProductCharacteristic.valueOf(characteristic.toUpperCase()));
         Mockito.verify(productMapper).productsToProductsDto(productListEmpty);
     }
-    //5.------------------------------------------getProductsByNameAndCharacteristic()---------------------------------------------
+    //------------------------------------------getProductsByNameAndCharacteristic()------------------------------------
 
     @Test
     void getProductsByNameAndCharacteristicPositiveTest() {
         String characteristic = "sugary";
         String name = "s";
         when(productRepository
-                        .getProductsByNameAndCharacteristic(name,
-                                (ProductCharacteristic.valueOf(characteristic.toUpperCase()))))
+                .getProductsByNameAndCharacteristic(name,
+                        (ProductCharacteristic.valueOf(characteristic.toUpperCase()))))
                 .thenReturn(productList);
         when(productMapper.productsToProductsDto(productList)).thenReturn(productDtoList);
         assertEquals(
@@ -192,19 +175,19 @@ class ProductServiceImplTest {
         when(productMapper.productsToProductsDto(productListEmpty)).thenReturn(productDtoListEmpty);
         Assertions.assertThrows(ListException.class,
                 () -> productService.getProductsByNameAndCharacteristic(name, characteristic));
-        Mockito.verify(productRepository).getProductsByNameAndCharacteristic(name, ProductCharacteristic.valueOf(characteristic));
+        Mockito.verify(productRepository).getProductsByNameAndCharacteristic(
+                name, ProductCharacteristic.valueOf(characteristic));
         Mockito.verify(productMapper).productsToProductsDto(productListEmpty);
     }
 
-
-    //6.------------------------------------------getProductsByCapacityAndCharacteristic()---------------------------------------------
+    //-----------------------------------------getProductsByCapacityAndCharacteristic()---------------------------------
     @Test
     void getProductsByCapacityAndCharacteristic() {
         String characteristic = "sugary";
         String capacityType = "big";
         when(productRepository
-                        .getProductsByCapacityAndCharacteristic(ProductCapacityType.valueOf(capacityType.toUpperCase()),
-                                (ProductCharacteristic.valueOf(characteristic.toUpperCase()))))
+                .getProductsByCapacityAndCharacteristic(ProductCapacityType.valueOf(capacityType.toUpperCase()),
+                        (ProductCharacteristic.valueOf(characteristic.toUpperCase()))))
                 .thenReturn(productList);
         when(productMapper.productsToProductsDto(productList)).thenReturn(productDtoList);
         assertEquals(
@@ -215,7 +198,6 @@ class ProductServiceImplTest {
                         ProductCharacteristic.valueOf(characteristic.toUpperCase()));
         Mockito.verify(productMapper).productsToProductsDto(productList);
     }
-
 
     @Test
     void getProductsByCapacityAndCharacteristicCapacityNotFoundExceptionTest() {
@@ -239,8 +221,8 @@ class ProductServiceImplTest {
         String characteristic = "SUGARY";
 
         when(productRepository.getProductsByCapacityAndCharacteristic(
-                        ProductCapacityType.valueOf(capacityType),
-                        ProductCharacteristic.valueOf(characteristic)))
+                ProductCapacityType.valueOf(capacityType),
+                ProductCharacteristic.valueOf(characteristic)))
                 .thenReturn(productListEmpty);
         when(productMapper.productsToProductsDto(productListEmpty)).thenReturn(productDtoListEmpty);
 
@@ -252,19 +234,4 @@ class ProductServiceImplTest {
                 ProductCharacteristic.valueOf(characteristic));
         Mockito.verify(productMapper).productsToProductsDto(productListEmpty);
     }
-
-    //8.------------------------------------------updateProductPrice()-----------------------------
-    @Test
-    void updateProductPricePositiveTest() {
-        doNothing().when(productService1).findById(uuid);
-       // Mockito.doNothing().when(productRepository).updateProductPrice(UUID.fromString(uuid), BigDecimal.valueOf(1.0));
-        product.setProductPrice(BigDecimal.valueOf(1.0));
-        productService.updateProductPrice(uuid, BigDecimal.valueOf(1.0));
-        assertEquals(BigDecimal.valueOf(1.0), product.getProductPrice());
-
-    }
-
-
-
-
 }

@@ -8,8 +8,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-@ControllerAdvice  //верхн уров ,спец анот ,бин компонент*один из первых запуск
+
+@ControllerAdvice
 public class ResponseExceptionHandler {
+
 
     @ExceptionHandler(value = CapacityNotFoundException.class)
     public ResponseEntity<ErrorDto> capacityNotFoundException(CapacityNotFoundException exception) {
@@ -84,9 +86,8 @@ public class ResponseExceptionHandler {
     }
 
     @ExceptionHandler(value = Exception.class)
-    public ResponseEntity<ErrorDto> exceptionHandle(Exception exception) {
+    public ResponseEntity<ErrorDto> exceptionHandler(Exception exception) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(new ErrorDto("Something Wrong", exception.getMessage()));
     }
-
 }

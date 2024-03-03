@@ -1,6 +1,6 @@
 package com.vasily_sokolov.nucacola.dto;
 
-import com.vasily_sokolov.nucacola.validation.interf.UuidCheck;
+import com.vasily_sokolov.nucacola.validation.interf.UuidCheckUUID;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.NotNull;
@@ -26,7 +26,7 @@ public class SaleDto {
     private String customerName;
 
     @Schema(description = "UUID of product")
-    @UuidCheck
+    @UuidCheckUUID
     private UUID productId;
 
     @Schema(minLength = 2, maxLength = 44,

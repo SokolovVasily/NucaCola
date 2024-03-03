@@ -92,10 +92,7 @@ public class SaleServiceImpl implements SaleService {
         }
     }
 
-    /**
-     * @param saleDto
-     * @return
-     */
+
     @Transactional(isolation = Isolation.READ_COMMITTED)
     @Override
     public Sale postCreateNewSale(SaleDto saleDto) {
