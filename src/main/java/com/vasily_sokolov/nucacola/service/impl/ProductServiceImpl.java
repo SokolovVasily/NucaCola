@@ -181,8 +181,8 @@ public class ProductServiceImpl implements ProductService {
         return productMapper.toDto(productRepository.save(product));
     }
 
-    @Override
     @Transactional(isolation = Isolation.REPEATABLE_READ)
+    @Override
     public void updateProductPrice(String productId, BigDecimal productPrice) {
         findById(productId);
         productRepository.updateProductPrice(UUID.fromString(productId), productPrice);
