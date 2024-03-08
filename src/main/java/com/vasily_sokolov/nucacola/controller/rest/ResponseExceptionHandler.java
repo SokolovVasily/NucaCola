@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.nio.file.AccessDeniedException;
+
 
 @ControllerAdvice
 public class ResponseExceptionHandler {
@@ -85,9 +87,19 @@ public class ResponseExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDto);
     }
 
+    @ExceptionHandler(value = AccessDeniedException.class)
+    public ResponseEntity<ErrorDto> userNotAutowired(Exception exception) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .body(
+                        new ErrorDto(
+                                "User not Autowired",
+                                exception.getMessage()));
+    }
+
     @ExceptionHandler(value = Exception.class)
     public ResponseEntity<ErrorDto> exceptionHandler(Exception exception) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(new ErrorDto("Something Wrong", exception.getMessage()));
     }
+
 }

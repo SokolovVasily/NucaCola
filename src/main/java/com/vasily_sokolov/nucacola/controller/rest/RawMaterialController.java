@@ -34,7 +34,11 @@ public class RawMaterialController {
                             content = {@Content(schema = @Schema(implementation = RawMaterialDto.class),
                                     mediaType = "application/json")}),
                     @ApiResponse(responseCode = "404",
-                            description = "return Error Message",
+                            description = "return Error Message because rawMaterial is not found",
+                            content = {@Content(schema = @Schema(implementation = ErrorDto.class),
+                                    mediaType = "application/json")}),
+                    @ApiResponse(responseCode = "500",
+                            description = "return Error Message because parameter is not valid",
                             content = {@Content(schema = @Schema(implementation = ErrorDto.class),
                                     mediaType = "application/json")})
             })
@@ -76,8 +80,12 @@ public class RawMaterialController {
                             description = "All its great",
                             content = {@Content(schema = @Schema(implementation = RawMaterialDto.class),
                                     mediaType = "application/json")}),
-                    @ApiResponse(responseCode = "404",
-                            description = "return Error Message",
+                    @ApiResponse(responseCode = "403",
+                            description = "return Error Message user is not autowired",
+                            content = {@Content(schema = @Schema(implementation = ErrorDto.class),
+                                    mediaType = "application/json")}),
+                    @ApiResponse(responseCode = "500",
+                            description = "return Error Message because parameter is not valid",
                             content = {@Content(schema = @Schema(implementation = ErrorDto.class),
                                     mediaType = "application/json")})
             })
@@ -93,8 +101,16 @@ public class RawMaterialController {
                             description = "All its great",
                             content = {@Content(schema = @Schema(),
                                     mediaType = "application/json")}),
+                    @ApiResponse(responseCode = "403",
+                            description = "return Error Message user is not autowired",
+                            content = {@Content(schema = @Schema(implementation = ErrorDto.class),
+                                    mediaType = "application/json")}),
                     @ApiResponse(responseCode = "404",
-                            description = "return Error Message",
+                            description = "return Error Message because rawMaterial is not found",
+                            content = {@Content(schema = @Schema(implementation = ErrorDto.class),
+                                    mediaType = "application/json")}),
+                    @ApiResponse(responseCode = "500",
+                            description = "return Error Message because parameter is not valid",
                             content = {@Content(schema = @Schema(implementation = ErrorDto.class),
                                     mediaType = "application/json")})
             })
@@ -118,8 +134,16 @@ public class RawMaterialController {
                             description = "All its great",
                             content = {@Content(schema = @Schema(),
                                     mediaType = "application/json")}),
+                    @ApiResponse(responseCode = "403",
+                            description = "return Error Message user is not autowired",
+                            content = {@Content(schema = @Schema(implementation = ErrorDto.class),
+                                    mediaType = "application/json")}),
                     @ApiResponse(responseCode = "404",
-                            description = "return Error Message",
+                            description = "return Error Message because rawMaterial is not found",
+                            content = {@Content(schema = @Schema(implementation = ErrorDto.class),
+                                    mediaType = "application/json")}),
+                    @ApiResponse(responseCode = "500",
+                            description = "return Error Message because parameter is not valid",
                             content = {@Content(schema = @Schema(implementation = ErrorDto.class),
                                     mediaType = "application/json")})
             })

@@ -32,7 +32,11 @@ public class WarehouseController {
                             content = {@Content(schema = @Schema(implementation = Warehouse.class),
                                     mediaType = "application/json")}),
                     @ApiResponse(responseCode = "404",
-                            description = "return Error Message",
+                            description = "return Error Message because warehouse is not found",
+                            content = {@Content(schema = @Schema(implementation = ErrorDto.class),
+                                    mediaType = "application/json")}),
+                    @ApiResponse(responseCode = "500",
+                            description = "return Error Message because parameter is not valid",
                             content = {@Content(schema = @Schema(implementation = ErrorDto.class),
                                     mediaType = "application/json")})
             })

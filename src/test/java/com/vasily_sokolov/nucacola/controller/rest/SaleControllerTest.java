@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
@@ -23,6 +24,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import java.util.List;
 import java.util.UUID;
 
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -42,7 +44,6 @@ class SaleControllerTest {
     private static final String CUSTOMER_NAME = "Supermarket 1";
     private static final String CUSTOMER_NAME_NOT_VALID = "Supermarket 11";
 
-
     //---------------------------------------getSaleById()--------------------------------------------------------------
     @Test
     void getSaleByIdPositiveTest() throws Exception {
@@ -50,7 +51,6 @@ class SaleControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
-
 
     @Test
     void getSaleByIdTest404() throws Exception {
@@ -69,7 +69,6 @@ class SaleControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isInternalServerError());
     }
-
 
     //---------------------------------------getSaleByName()------------------------------------------------------------
     @Test
@@ -164,6 +163,7 @@ class SaleControllerTest {
 
     //---------------------------------------postCreateNewSale()--------------------------------------------------------
 
+    @WithMockUser(username = "MockAdmin", password = "1234", roles = {"ADMIN"})
     @Test
     void postCreateSalePositiveTest() throws Exception {
         SaleDto saleDto = new SaleDto(
@@ -175,15 +175,31 @@ class SaleControllerTest {
         MvcResult mvcResult = mockMvc.perform(
                         MockMvcRequestBuilders.post("/sale/create")
                                 .content(requestBody)
+                                .with(csrf())
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andReturn();
         Assertions.assertEquals(200, mvcResult.getResponse().getStatus());
         Assertions.assertEquals(3, getAll().size());
     }
 
+    @Test
+    void postCreateSaleTest403() throws Exception {
+        SaleDto saleDto = new SaleDto(
+                "Supermarket 10",
+                UUID.fromString("10d83df1-7247-4a7e-af09-96d418317ec2"),
+                "Nuca-Cola"
+        );
+        String requestBody = objectMapper.writeValueAsString(saleDto);
+        mockMvc.perform(
+                        MockMvcRequestBuilders.post("/sale/create")
+                                .content(requestBody)
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isForbidden());
+
+    }
+    @WithMockUser(username = "MockAdmin", password = "1234", roles = {"ADMIN"})
     @ParameterizedTest
     @CsvSource(value = {
-            //"Supermarket 10,1c27bc9d-c00b-46c3-bf1c-393a3916016,Nuca-Cola zero",
             "s,1c27bc9d-c00b-46c3-bf1c-393a39160168,Nuca-Cola zero",
             "123456789012345678901234567890123456789012345,1c27bc9d-c00b-46c3-bf1c-393a39160168,Nuca-Cola zero",
             "Supermarket 10,1c27bc9d-c00b-46c3-bf1c-393a39160168,n",
@@ -199,32 +215,50 @@ class SaleControllerTest {
         mockMvc.perform(
                         MockMvcRequestBuilders.post("/sale/create")
                                 .content(requestBody)
+                                .with(csrf())
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isInternalServerError());
     }
 
     //--------------------------------------------updateSaleCustomerName()----------------------------------------------
+    @WithMockUser(username = "MockAdmin", password = "1234", roles = {"ADMIN"})
     @Test
     void updateSaleCustomerNamePositiveTest() throws Exception {
         MvcResult mvcResult = mockMvc.perform(
                         MockMvcRequestBuilders.put("/sale/put")
                                 .param("saleId", SALE_ID)
                                 .param("customerName", CUSTOMER_NAME)
+                                .with(csrf())
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andReturn();
         Assertions.assertEquals(200, mvcResult.getResponse().getStatus());
     }
 
+    @WithMockUser(username = "MockAdmin", password = "1234", roles = {"ADMIN"})
+    @Test
+    void updateSaleCustomerNameTest403() throws Exception {
+         mockMvc.perform(
+                        MockMvcRequestBuilders.put("/sale/put")
+                                .param("saleId", SALE_ID)
+                                .param("customerName", CUSTOMER_NAME)
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isForbidden());
+
+    }
+
+    @WithMockUser(username = "MockAdmin", password = "1234", roles = {"ADMIN"})
     @Test
     void updateSaleCustomerNameTest404() throws Exception {
         mockMvc.perform(
                         MockMvcRequestBuilders.put("/sale/put")
                                 .param("saleId", SALE_ID_NOT_EXIST)
                                 .param("customerName", CUSTOMER_NAME)
+                                .with(csrf())
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isNotFound());
     }
 
+    @WithMockUser(username = "MockAdmin", password = "1234", roles = {"ADMIN"})
     @ParameterizedTest
     @CsvSource(value = {
             "b5310470-4943-4718-8899-2329a4dec393,Supermarket 100000000000000000000000000000000",
@@ -237,29 +271,43 @@ class SaleControllerTest {
                         MockMvcRequestBuilders.put("/sale/put")
                                 .param("saleId", saleId)
                                 .param("customerName", customerName)
+                                .with(csrf())
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isInternalServerError());
     }
     //--------------------------------------------deleteProductById-----------------------------------------------------
 
+    @WithMockUser(username = "MockAdmin", password = "1234", roles = {"ADMIN"})
     @Test
     void deleteSaleByIdPositiveTest() throws Exception {
         MvcResult mvcResult = mockMvc.perform(
                         MockMvcRequestBuilders.delete("/sale/delete/" + SALE_ID)
+                                .with(csrf())
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andReturn();
         Assertions.assertEquals(200, mvcResult.getResponse().getStatus());
         Assertions.assertEquals(1, getAll().size());
     }
 
+    @WithMockUser(username = "MockAdmin", password = "1234", roles = {"ADMIN"})
+    @Test
+    void deleteSaleByIdTest403() throws Exception {
+        mockMvc.perform(
+                        MockMvcRequestBuilders.delete("/sale/delete/" + SALE_ID)
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isForbidden());
+    }
+    @WithMockUser(username = "MockAdmin", password = "1234", roles = {"ADMIN"})
     @Test
     void deleteSaleByIdTest404() throws Exception {
         mockMvc.perform(
                         MockMvcRequestBuilders.delete("/sale/delete/" + SALE_ID_NOT_EXIST)
+                                .with(csrf())
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isNotFound());
     }
 
+    @WithMockUser(username = "MockAdmin", password = "1234", roles = {"ADMIN"})
     @ParameterizedTest
     @CsvSource(value = {
             "b5310470-4943-4718-8899-2329a4dec3933",
@@ -268,6 +316,7 @@ class SaleControllerTest {
     void deleteSaleByIdTest500(String saleId) throws Exception {
         mockMvc.perform(
                         MockMvcRequestBuilders.delete("/sale/delete/" + saleId)
+                                .with(csrf())
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isInternalServerError());
 

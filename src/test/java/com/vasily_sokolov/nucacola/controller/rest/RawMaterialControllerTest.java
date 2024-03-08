@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
@@ -21,6 +22,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.List;
+
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -94,6 +97,8 @@ class RawMaterialControllerTest {
     }
 
     //----------------------------------------------postCreateRawMaterial()---------------------------------------------
+
+    @WithMockUser(username = "MockAdmin", password = "1234", roles = {"ADMIN"})
     @Test
     void postCreateRawMaterialPositiveTest() throws Exception {
         RawMaterialDto rawMaterialDto = new RawMaterialDto(
@@ -104,19 +109,34 @@ class RawMaterialControllerTest {
         MvcResult mvcResult = mockMvc.perform(
                         MockMvcRequestBuilders.post("/rawMaterial/create")
                                 .content(requestBody)
+                                .with(csrf())
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andReturn();
         Assertions.assertEquals(200, mvcResult.getResponse().getStatus());
         Assertions.assertEquals(3, getAll().size());
     }
 
+    @Test
+    void postCreateRawMaterialTest403() throws Exception {
+        RawMaterialDto rawMaterialDto = new RawMaterialDto(
+                "secret ingredient for dietetic drink",
+                "Jupiter"
+        );
+        String requestBody = objectMapper.writeValueAsString(rawMaterialDto);
+        mockMvc.perform(
+                        MockMvcRequestBuilders.post("/rawMaterial/create")
+                                .content(requestBody)
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isForbidden());
+    }
+
+    @WithMockUser(username = "MockAdmin", password = "1234", roles = {"ADMIN"})
     @ParameterizedTest
     @CsvSource(value = {
             "secret ingredient for dietetic drink,S",
             "s,Saturn",
             "secret ingredient for dietetic drink secret for  ,Saturn",
             "secret ingredient for dietetic drink,Saturn_nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn"
-
     })
     void postCreateRawMaterialTest500(String rawMaterialName, String supplierName) throws Exception {
         RawMaterialDto rawMaterialDto = new RawMaterialDto(
@@ -127,12 +147,14 @@ class RawMaterialControllerTest {
         mockMvc.perform(
                         MockMvcRequestBuilders.post("/rawMaterial/create")
                                 .content(requestBody)
+                                .with(csrf())
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isInternalServerError());
     }
 
     //----------------------------------------------updateRawMaterialName()---------------------------------------------
 
+    @WithMockUser(username = "MockAdmin", password = "1234", roles = {"ADMIN"})
     @Test
     void updateRawMaterialNamePositiveTest() throws Exception {
         String rawMaterialName = "secret ingredient for <parcel> sugar drink";
@@ -140,11 +162,25 @@ class RawMaterialControllerTest {
                         MockMvcRequestBuilders.put("/rawMaterial/put")
                                 .param("rawMaterialId", RAW_MATERIAL_ID)
                                 .param("name", rawMaterialName)
+                                .with(csrf())
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andReturn();
         Assertions.assertEquals(200, mvcResult.getResponse().getStatus());
     }
 
+    @WithMockUser(username = "MockAdmin", password = "1234", roles = {"ADMIN"})
+    @Test
+    void updateRawMaterialNameTest403() throws Exception {
+        String rawMaterialName = "secret ingredient for <parcel> sugar drink";
+        mockMvc.perform(
+                        MockMvcRequestBuilders.put("/rawMaterial/put")
+                                .param("rawMaterialId", RAW_MATERIAL_ID)
+                                .param("name", rawMaterialName)
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isForbidden());
+    }
+
+    @WithMockUser(username = "MockAdmin", password = "1234", roles = {"ADMIN"})
     @Test
     void updateRawMaterialNameTest404() throws Exception {
         String rawMaterialName = "secret ingredient for <parcel> sugar drink";
@@ -152,9 +188,12 @@ class RawMaterialControllerTest {
                         MockMvcRequestBuilders.put("/rawMaterial/put")
                                 .param("rawMaterialId", RAW_MATERIAL_ID_NOT_EXIST)
                                 .param("name", rawMaterialName)
+                                .with(csrf())
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isNotFound());
     }
+
+    @WithMockUser(username = "MockAdmin", password = "1234", roles = {"ADMIN"})
     @ParameterizedTest
     @CsvSource(value = {
             "7d2000c1-8111-420c-a42a-e4eca5b5009,secret ingredient for <parcel> sugar drink ",
@@ -167,15 +206,18 @@ class RawMaterialControllerTest {
                         MockMvcRequestBuilders.put("/rawMaterial/put")
                                 .param("rawMaterialId", rawMaterialId)
                                 .param("name", rawMaterialName)
+                                .with(csrf())
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isInternalServerError());
     }
 
     //----------------------------------deleteRawMaterialById-----------------------------------------------------------
+    @WithMockUser(username = "MockAdmin", password = "1234", roles = {"ADMIN"})
     @Test
     void deleteRawMaterialByIdPositiveTest() throws Exception {
         MvcResult mvcResult = mockMvc.perform(
                         MockMvcRequestBuilders.delete("/rawMaterial/delete/" + RAW_MATERIAL_ID)
+                                .with(csrf())
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andReturn();
         Assertions.assertEquals(200, mvcResult.getResponse().getStatus());
@@ -183,13 +225,24 @@ class RawMaterialControllerTest {
     }
 
     @Test
+    void deleteRawMaterialByIdTest403() throws Exception {
+        mockMvc.perform(
+                        MockMvcRequestBuilders.delete("/rawMaterial/delete/" + RAW_MATERIAL_ID)
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isForbidden());
+    }
+
+    @WithMockUser(username = "MockAdmin", password = "1234", roles = {"ADMIN"})
+    @Test
     void deleteRawMaterialByIdTest404() throws Exception {
         mockMvc.perform(
                         MockMvcRequestBuilders.delete("/rawMaterial/delete/" + RAW_MATERIAL_ID_NOT_EXIST)
+                                .with(csrf())
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isNotFound());
     }
 
+    @WithMockUser(username = "MockAdmin", password = "1234", roles = {"ADMIN"})
     @ParameterizedTest
     @CsvSource(value = {
             "7d2000c1-8111-420c-a42a-e4eca5b5009",
@@ -198,9 +251,11 @@ class RawMaterialControllerTest {
     void deleteRawMaterialByIdTest500(String rawMaterialId) throws Exception {
         mockMvc.perform(
                         MockMvcRequestBuilders.delete("/rawMaterial/delete/" + rawMaterialId)
+                                .with(csrf())
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isInternalServerError());
     }
+
     //----------------------------------PrivateMethods------------------------------------------------------------------
     private List<RawMaterialDto> getAll() throws Exception {
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/rawMaterial/all")
