@@ -38,8 +38,7 @@
             <version>8.2.0</version>
         </dependency>
 
-
-      <dependency>
+        <dependency>
           <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
@@ -100,6 +99,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
             <version>3.2.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-test</artifactId>
+            <version>6.2.2</version>
+            <scope>test</scope>
         </dependency>
 
     </dependencies>
@@ -192,17 +197,13 @@
                                     </limits>
                                 </rule>
                             </rules>
-
-
                         </configuration>
-
-
                     </execution>
                 </executions>
-
             </plugin>
         </plugins>
     </build>
+
     <repositories>
         <repository>
             <id>spring-milestones</id>

@@ -40,7 +40,11 @@ public class ProductController {
                             content = {@Content(schema = @Schema(implementation = Product.class),
                                     mediaType = "application/json")}),
                     @ApiResponse(responseCode = "404",
-                            description = "return Error Message",
+                            description = "return Error Message because not found product",
+                            content = {@Content(schema = @Schema(implementation = ErrorDto.class),
+                                    mediaType = "application/json")}),
+                    @ApiResponse(responseCode = "500",
+                            description = "return Error Message because parameter is not valid",
                             content = {@Content(schema = @Schema(implementation = ErrorDto.class),
                                     mediaType = "application/json")})
             })
@@ -62,7 +66,11 @@ public class ProductController {
                             content = {@Content(schema = @Schema(implementation = ProductDto.class),
                                     mediaType = "application/json")}),
                     @ApiResponse(responseCode = "404",
-                            description = "return Error Message",
+                            description = "return Error Message because product is not found",
+                            content = {@Content(schema = @Schema(implementation = ErrorDto.class),
+                                    mediaType = "application/json")}),
+                    @ApiResponse(responseCode = "500",
+                            description = "return Error Message because parameter is not valid",
                             content = {@Content(schema = @Schema(implementation = ErrorDto.class),
                                     mediaType = "application/json")})
             })
@@ -100,7 +108,11 @@ public class ProductController {
                             content = {@Content(schema = @Schema(implementation = ProductDto.class),
                                     mediaType = "application/json")}),
                     @ApiResponse(responseCode = "404",
-                            description = "return Error Message",
+                            description = "return Error Message because product is not found",
+                            content = {@Content(schema = @Schema(implementation = ErrorDto.class),
+                                    mediaType = "application/json")}),
+                    @ApiResponse(responseCode = "500",
+                            description = "return Error Message because parameter is not valid",
                             content = {@Content(schema = @Schema(implementation = ErrorDto.class),
                                     mediaType = "application/json")})
             })
@@ -124,7 +136,11 @@ public class ProductController {
                             content = {@Content(schema = @Schema(implementation = ProductDto.class),
                                     mediaType = "application/json")}),
                     @ApiResponse(responseCode = "404",
-                            description = "return Error Message",
+                            description = "return Error Message because product is not found",
+                            content = {@Content(schema = @Schema(implementation = ErrorDto.class),
+                                    mediaType = "application/json")}),
+                    @ApiResponse(responseCode = "500",
+                            description = "return Error Message because parameter is not valid",
                             content = {@Content(schema = @Schema(implementation = ErrorDto.class),
                                     mediaType = "application/json")})
             })
@@ -150,7 +166,7 @@ public class ProductController {
                             content = {@Content(schema = @Schema(implementation = ProductDto.class),
                                     mediaType = "application/json")}),
                     @ApiResponse(responseCode = "404",
-                            description = "return Error Message",
+                            description = "return Error Message because product is not found",
                             content = {@Content(schema = @Schema(implementation = ErrorDto.class),
                                     mediaType = "application/json")})
             })
@@ -183,8 +199,12 @@ public class ProductController {
                             description = "All its great",
                             content = {@Content(schema = @Schema(implementation = ProductDto.class),
                                     mediaType = "application/json")}),
+                    @ApiResponse(responseCode = "403",
+                            description = "return Error Message user is not autowired",
+                            content = {@Content(schema = @Schema(implementation = ErrorDto.class),
+                                    mediaType = "application/json")}),
                     @ApiResponse(responseCode = "500",
-                            description = "return Error Message",
+                            description = "return Error Message because parameter is not valid",
                             content = {@Content(schema = @Schema(implementation = ErrorDto.class),
                                     mediaType = "application/json")})
             })
@@ -200,12 +220,19 @@ public class ProductController {
                             description = "All its great",
                             content = {@Content(schema = @Schema(),
                                     mediaType = "application/json")}),
+                    @ApiResponse(responseCode = "403",
+                            description = "return Error Message user is not autowired",
+                            content = {@Content(schema = @Schema(implementation = ErrorDto.class),
+                                    mediaType = "application/json")}),
                     @ApiResponse(responseCode = "404",
-                            description = "return Error Message",
+                            description = "return Error Message because product is not found",
+                            content = {@Content(schema = @Schema(implementation = ErrorDto.class),
+                                    mediaType = "application/json")}),
+                    @ApiResponse(responseCode = "500",
+                            description = "return Error Message because parameter is not valid",
                             content = {@Content(schema = @Schema(implementation = ErrorDto.class),
                                     mediaType = "application/json")})
             })
-
     @PutMapping("/put")
     public void updateProductPrice(
             @Schema(description = "Id of product",
@@ -230,8 +257,16 @@ public class ProductController {
                             description = "All its great",
                             content = {@Content(schema = @Schema(),
                                     mediaType = "application/json")}),
+                    @ApiResponse(responseCode = "403",
+                            description = "return Error Message user is not autowired",
+                            content = {@Content(schema = @Schema(implementation = ErrorDto.class),
+                                    mediaType = "application/json")}),
                     @ApiResponse(responseCode = "404",
-                            description = "return Error Message",
+                            description = "return Error Message because product is not found",
+                            content = {@Content(schema = @Schema(implementation = ErrorDto.class),
+                                    mediaType = "application/json")}),
+                    @ApiResponse(responseCode = "500",
+                            description = "return Error Message because parameter is not valid",
                             content = {@Content(schema = @Schema(implementation = ErrorDto.class),
                                     mediaType = "application/json")})
             })

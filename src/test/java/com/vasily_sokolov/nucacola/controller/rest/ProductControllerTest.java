@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
@@ -26,6 +27,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import static org.hamcrest.Matchers.containsString;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 
 
 @ExtendWith(SpringExtension.class)
@@ -73,7 +75,6 @@ class ProductControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isInternalServerError());
     }
 
-
     //--------------------------------------------getProductsByName-----------------------------------------------------
     @Test
     void getProductsByNamePositiveTest() throws Exception {
@@ -104,7 +105,6 @@ class ProductControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isInternalServerError());
     }
-
 
     //--------------------------------------------getAllProducts--------------------------------------------------------
     @Test
@@ -238,6 +238,7 @@ class ProductControllerTest {
     }
 
     //--------------------------------------------postCreateProduct-----------------------------------------------------
+    @WithMockUser(username = "MockAdmin", password = "1234", roles = {"ADMIN"})
     @Test
     void postCreateProductPositiveTest() throws Exception {
         ProductDto productDto = new ProductDto(
@@ -250,13 +251,30 @@ class ProductControllerTest {
         MvcResult mvcResult = mockMvc.perform(
                         MockMvcRequestBuilders.post("/product/create")
                                 .content(requestBody)
+                                .with(csrf())
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andReturn();
         Assertions.assertEquals(200, mvcResult.getResponse().getStatus());
-
         Assertions.assertEquals(7, getAll().size());
     }
 
+    @Test
+    void postCreateProductTest403() throws Exception {
+        ProductDto productDto = new ProductDto(
+                "Nuca-Cola orange",
+                BigDecimal.valueOf(1.99d),
+                ProductCapacityType.BIG,
+                ProductCharacteristic.NOT_SUGARY
+        );
+        String requestBody = objectMapper.writeValueAsString(productDto);
+        mockMvc.perform(
+                        MockMvcRequestBuilders.post("/product/create")
+                                .content(requestBody)
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isForbidden());
+    }
+
+    @WithMockUser(username = "MockAdmin", password = "1234", roles = {"ADMIN"})
     @ParameterizedTest
     @CsvSource(value = {
             "-0.01",
@@ -274,11 +292,13 @@ class ProductControllerTest {
         mockMvc.perform(
                         MockMvcRequestBuilders.post("/product/create")
                                 .content(requestBody)
+                                .with(csrf())
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isInternalServerError());
     }
 
     //--------------------------------------------updateProductPrice----------------------------------------------------
+    @WithMockUser(username = "MockAdmin", password = "1234", roles = {"ADMIN"})
     @Test
     void updateProductPricePositiveTest() throws Exception {
         String productPrice = "100.00";
@@ -286,6 +306,7 @@ class ProductControllerTest {
                         MockMvcRequestBuilders.put("/product/put")
                                 .param("productId", PRODUCT_ID)
                                 .param("productPrice", productPrice)
+                                .with(csrf())
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andReturn();
         Assertions.assertEquals(200, mvcResult.getResponse().getStatus());
@@ -293,16 +314,30 @@ class ProductControllerTest {
     }
 
     @Test
+    void updateProductPriceTest403() throws Exception {
+        String productPrice = "100.00";
+        mockMvc.perform(
+                        MockMvcRequestBuilders.put("/product/put")
+                                .param("productId", PRODUCT_ID)
+                                .param("productPrice", productPrice)
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isForbidden());
+    }
+
+    @WithMockUser(username = "MockAdmin", password = "1234", roles = {"ADMIN"})
+    @Test
     void updateProductPriceTest404() throws Exception {
         String productPrice = "100.00";
         mockMvc.perform(
                         MockMvcRequestBuilders.put("/product/put")
                                 .param("productId", PRODUCT_ID_NOT_EXIST)
                                 .param("productPrice", productPrice)
+                                .with(csrf())
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isNotFound());
     }
 
+    @WithMockUser(username = "MockAdmin", password = "1234", roles = {"ADMIN"})
     @ParameterizedTest
     @CsvSource(value = {
             "10d83df1-7247-4a7e-af09-96d418317ec,1.99",
@@ -316,15 +351,18 @@ class ProductControllerTest {
                         MockMvcRequestBuilders.put("/product/put")
                                 .param("productId", productId)
                                 .param("productPrice", productPrice)
+                                .with(csrf())
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isInternalServerError());
     }
 
     //--------------------------------------------deleteProductById-----------------------------------------------------
+    @WithMockUser(username = "MockAdmin", password = "1234", roles = {"ADMIN"})
     @Test
     void deleteProductByIdPositiveTest() throws Exception {
         MvcResult mvcResult = mockMvc.perform(
                         MockMvcRequestBuilders.delete("/product/delete/" + PRODUCT_ID)
+                                .with(csrf())
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andReturn();
         Assertions.assertEquals(200, mvcResult.getResponse().getStatus());
@@ -333,14 +371,25 @@ class ProductControllerTest {
 
 
     @Test
-    void deleteProductByIdTest404() throws Exception {
-        mockMvc.perform(
-                        MockMvcRequestBuilders.delete("/product/delete/" + PRODUCT_ID_NOT_EXIST)
+    void deleteProductByIdTest403() throws Exception {
+       mockMvc.perform(
+                        MockMvcRequestBuilders.delete("/product/delete/" + PRODUCT_ID)
                                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isNotFound());
+               .andExpect(MockMvcResultMatchers.status().isForbidden());
 
     }
 
+    @WithMockUser(username = "MockAdmin", password = "1234", roles = {"ADMIN"})
+    @Test
+    void deleteProductByIdTest404() throws Exception {
+        mockMvc.perform(
+                        MockMvcRequestBuilders.delete("/product/delete/" + PRODUCT_ID_NOT_EXIST)
+                                .with(csrf())
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isNotFound());
+    }
+
+    @WithMockUser(username = "MockAdmin", password = "1234", roles = {"ADMIN"})
     @ParameterizedTest
     @CsvSource(value = {
             "10d83df1-7247-4a7e-af09-96d418317ec",
@@ -349,9 +398,11 @@ class ProductControllerTest {
     void deleteProductByIdTest500(String productID) throws Exception {
         mockMvc.perform(
                         MockMvcRequestBuilders.delete("/product/delete/" + productID)
+                                .with(csrf())
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isInternalServerError());
     }
+
     //--------------------------------------------privateMethods-----------------------------------------------------
     private List<ProductDto> getAll() throws Exception {
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/product/all")
