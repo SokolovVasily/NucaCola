@@ -3,6 +3,7 @@ package com.vasily_sokolov.nucacola.config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -11,7 +12,6 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -21,26 +21,37 @@ public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
 
+    private static final String[] WHITE_LIST = {
+            "/product/**",
+            "/rawMaterial/**",
+            "/sale/**"
+    };
+    private static final String[] SWAGGER_LIST = {
+            "/api/v1/auth/",
+            "/v2/api-docs",
+            "/v3/api-docs",
+            "/v3/api-docs/",
+            "/swagger-resources",
+            "/swagger-resources/",
+            "/configuration/ui",
+            "/configuration/security",
+            "/swagger-ui/",
+            "/webjars/**",
+            "/swagger-ui.html",
+            "/swagger-ui/**"
+    };
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth ->
                         auth
-                                .requestMatchers(
-                                        new AntPathRequestMatcher("/swagger-ui/index.html"),
-
-                                        new AntPathRequestMatcher("/product/create"),
-                                        new AntPathRequestMatcher("/product/put"),
-                                        new AntPathRequestMatcher("/product/delete/"),
-                                        new AntPathRequestMatcher("/rawMaterial/create"),
-                                        new AntPathRequestMatcher("/rawMaterial/put"),
-                                        new AntPathRequestMatcher("/rawMaterial/delete/"),
-                                        new AntPathRequestMatcher("/sale/create"),
-                                        new AntPathRequestMatcher("/sale/put"),
-                                        new AntPathRequestMatcher("/sale/delete/**")
-                                ).hasRole("ADMIN")
-                                .anyRequest().permitAll()
+                                .requestMatchers("/authenticate").permitAll()
+                                .requestMatchers(SWAGGER_LIST).permitAll()
+                                .requestMatchers(HttpMethod.GET, WHITE_LIST).permitAll()
+                                .anyRequest()
+                                .authenticated()
                 )
                 .formLogin(Customizer.withDefaults())
                 .logout(logoutPage -> logoutPage.logoutSuccessUrl("/"))

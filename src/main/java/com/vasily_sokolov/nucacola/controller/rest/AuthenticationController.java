@@ -5,10 +5,7 @@ import com.vasily_sokolov.nucacola.dto.authentication.AuthenticationResponse;
 import com.vasily_sokolov.nucacola.service.impl.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping()
@@ -17,7 +14,7 @@ public class AuthenticationController {
 
     private final AuthenticationService service;
 
-    @PostMapping("/authenticate")
+    @PostMapping ("/authenticate")
     public ResponseEntity<AuthenticationResponse> authenticate(
             @RequestBody AuthenticationRequest request
     ) {

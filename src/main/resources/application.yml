@@ -2,6 +2,7 @@ spring:
   main:
     banner-mode: off
 
+
   datasource:
     url: jdbc:mysql://localhost:3306/nucacola
     username: root
@@ -17,4 +18,5 @@ spring:
     change-log: classpath:/db/changelog/changelog-master.xml
 
   #http://localhost:8080/swagger-ui/index.html
+  #/v3/api-docs
 
