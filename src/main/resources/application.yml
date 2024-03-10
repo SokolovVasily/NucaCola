@@ -17,6 +17,12 @@ spring:
   liquibase:
     change-log: classpath:/db/changelog/changelog-master.xml
 
-  #http://localhost:8080/swagger-ui/index.html
-  #/v3/api-docs
+springdoc:
+  webjars:
+    prefix:
+  swagger-ui:
+    path: /nuca-cola/v3/swagger-ui.html
+  api-docs:
+    enabled: true
+    path: /nuca-cola/v3/api-docs
 

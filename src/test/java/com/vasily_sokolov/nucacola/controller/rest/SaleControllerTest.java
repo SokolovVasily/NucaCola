@@ -234,7 +234,6 @@ class SaleControllerTest {
         Assertions.assertEquals(200, mvcResult.getResponse().getStatus());
     }
 
-    @WithMockUser(username = "MockAdmin", password = "1234", roles = {"ADMIN"})
     @Test
     void updateSaleCustomerNameTest403() throws Exception {
          mockMvc.perform(
@@ -289,7 +288,6 @@ class SaleControllerTest {
         Assertions.assertEquals(1, getAll().size());
     }
 
-    @WithMockUser(username = "MockAdmin", password = "1234", roles = {"ADMIN"})
     @Test
     void deleteSaleByIdTest403() throws Exception {
         mockMvc.perform(

@@ -36,9 +36,10 @@ public class SecurityConfig {
             "/configuration/ui",
             "/configuration/security",
             "/swagger-ui/",
-            "/webjars/**",
+            "/webjars/",
             "/swagger-ui.html",
-            "/swagger-ui/**"
+            "/swagger-ui/",
+            "/nuca-cola/**"
     };
 
     @Bean
@@ -53,7 +54,6 @@ public class SecurityConfig {
                                 .anyRequest()
                                 .authenticated()
                 )
-                .formLogin(Customizer.withDefaults())
                 .logout(logoutPage -> logoutPage.logoutSuccessUrl("/"))
                 .sessionManagement(sessionManagement ->
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)

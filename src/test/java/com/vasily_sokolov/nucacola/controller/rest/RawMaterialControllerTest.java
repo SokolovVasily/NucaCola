@@ -168,7 +168,6 @@ class RawMaterialControllerTest {
         Assertions.assertEquals(200, mvcResult.getResponse().getStatus());
     }
 
-    @WithMockUser(username = "MockAdmin", password = "1234", roles = {"ADMIN"})
     @Test
     void updateRawMaterialNameTest403() throws Exception {
         String rawMaterialName = "secret ingredient for <parcel> sugar drink";
