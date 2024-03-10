@@ -1,6 +1,5 @@
 package com.vasily_sokolov.nucacola.validation.interf;
 
-import com.vasily_sokolov.nucacola.validation.constraint.UuidAnnotationChecker;
 import com.vasily_sokolov.nucacola.validation.constraint.UuidAnnotationCheckerUUID;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;

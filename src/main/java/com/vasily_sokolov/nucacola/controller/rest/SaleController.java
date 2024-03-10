@@ -146,7 +146,7 @@ public class SaleController {
                                     mediaType = "application/json")})
             })
     @PostMapping("/create")
-    public Sale postCreateNewSale( @RequestBody @Valid SaleDto saleDto) {
+    public Sale postCreateNewSale(@RequestBody @Valid SaleDto saleDto) {
         return saleService.postCreateNewSale(saleDto);
     }
 

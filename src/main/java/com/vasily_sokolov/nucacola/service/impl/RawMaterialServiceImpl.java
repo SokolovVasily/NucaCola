@@ -81,7 +81,7 @@ public class RawMaterialServiceImpl implements RawMaterialService {
     @Override
     public RawMaterialDto postCreateRawMaterial(RawMaterialDto rawMaterialDto) {
         Supplier supplier = supplierRepository.getSupplierByName(rawMaterialDto.getSupplierName());
-        if(supplier == null){
+        if (supplier == null) {
             throw new SupplierNotFoundException(ErrorMessage.SUPPLIER_NOT_FOUND);
         }
         RawMaterial rawMaterial = RawMaterial.builder()
