@@ -39,7 +39,7 @@
         </dependency>
 
         <dependency>
-          <groupId>org.springframework.boot</groupId>
+            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
@@ -164,8 +164,11 @@
 
                     <excludes>
                         <exclude>com/vasily_sokolov/nucacola/aspect/*</exclude>
+                        <exclude>com/vasily_sokolov/nucacola/config/*</exclude>
+                        <exclude>com/vasily_sokolov/nucacola/config/service/*</exclude>
                         <exclude>com/vasily_sokolov/nucacola/controller/rest/ResponseExceptionHandler.class</exclude>
                         <exclude>com/vasily_sokolov/nucacola/dto/*</exclude>
+                        <exclude>com/vasily_sokolov/nucacola/dto/authentication/*</exclude>
                         <exclude>com/vasily_sokolov/nucacola/exception/message/*</exclude>
                         <exclude>com/vasily_sokolov/nucacola/exception/exceptions/*</exclude>
                         <exclude>com/vasily_sokolov/nucacola/entity/*</exclude>
@@ -173,7 +176,7 @@
                         <exclude>com/vasily_sokolov/nucacola/mapper/*</exclude>
                         <exclude>com/vasily_sokolov/nucacola/repository/*</exclude>
                         <exclude>com/vasily_sokolov/nucacola/NucaColaApplication.class</exclude>
-                        <exclude>com/vasily_sokolov/nucacola/config/*</exclude>
+
                     </excludes>
 
                 </configuration>
